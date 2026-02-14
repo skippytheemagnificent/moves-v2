@@ -56,7 +56,6 @@
             text-align: center;
         }
 
-        .affirmation-glow,
         .affirmation-sparkle,
         .affirmation-icon {
             display: none;
@@ -99,7 +98,7 @@
             font-size: 15px;
             color: var(--text-dim);
             border-bottom: 2px solid transparent;
-            transition: all 0.15s ease;
+            transition: color 0.15s ease, border-color 0.15s ease;
         }
 
         .tab:hover {
@@ -122,9 +121,9 @@
             text-align: center;
             margin-bottom: 24px;
             padding: 20px;
-            background: linear-gradient(135deg, rgba(78, 204, 163, 0.1) 0%, rgba(15, 52, 96, 0.3) 100%);
+            background: var(--card);
             border-radius: 16px;
-            border: 1px solid rgba(78, 204, 163, 0.2);
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .journal-date {
@@ -157,7 +156,7 @@
             border-radius: 50%;
             cursor: pointer;
             font-size: 1.2rem;
-            transition: all 0.2s;
+            transition: background-color 0.2s, transform 0.2s;
         }
 
         .journal-nav button:hover {
@@ -242,7 +241,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(78, 204, 163, 0.15);
+            background: rgba(34, 197, 94, 0.15);
             color: var(--success);
             padding: 6px 12px;
             border-radius: 20px;
@@ -328,7 +327,7 @@
             line-height: 1.6;
             resize: vertical;
             font-family: inherit;
-            transition: all 0.2s;
+            transition: background-color 0.2s, border-color 0.2s;
         }
 
         .journal-textarea:focus {
@@ -353,7 +352,7 @@
             font-size: 0.85rem;
             color: var(--success);
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.3s ease;
         }
 
         .save-status.visible {
@@ -403,7 +402,7 @@
             border-radius: 8px;
             font-size: 0.85rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background-color 0.2s, color 0.2s;
             position: relative;
         }
 
@@ -483,9 +482,9 @@
         .pattern-bar {
             width: 100%;
             max-width: 40px;
-            background: linear-gradient(to top, var(--success), rgba(78, 204, 163, 0.5));
+            background: var(--success);
             border-radius: 6px 6px 0 0;
-            transition: all 0.3s;
+            transition: opacity 0.3s, transform 0.3s;
             min-height: 4px;
         }
 
@@ -494,8 +493,7 @@
         }
 
         .pattern-bar.best {
-            background: linear-gradient(to top, var(--accent), rgba(233, 69, 96, 0.5));
-            box-shadow: 0 0 10px rgba(233, 69, 96, 0.3);
+            background: var(--accent);
         }
 
         .pattern-label {
@@ -511,7 +509,7 @@
         }
 
         .pattern-insight {
-            background: rgba(78, 204, 163, 0.1);
+            background: rgba(34, 197, 94, 0.1);
             border-radius: 10px;
             padding: 16px;
             margin-top: 16px;
@@ -957,8 +955,7 @@
         .coach-face.motivation .coach-message {
             font-family: 'Georgia', 'Didot', serif;
             font-style: italic;
-            color: #E8D48A;
-            text-shadow: 0 0 20px rgba(232, 212, 138, 0.3);
+            color: var(--text);
         }
 
         .coach-face.direction .coach-message {
@@ -977,7 +974,7 @@
         }
 
         .coach-gold {
-            color: #E8D48A;
+            color: var(--accent);
             font-weight: 600;
         }
 
@@ -994,16 +991,16 @@
             align-items: center;
             justify-content: space-between;
             padding: 16px 20px;
-            background: linear-gradient(135deg, rgba(233, 69, 96, 0.15) 0%, rgba(15, 52, 96, 0.4) 100%);
+            background: var(--card);
             border-radius: 12px 12px 0 0;
-            border: 1px solid rgba(233, 69, 96, 0.3);
+            border: 1px solid rgba(232, 93, 78, 0.1);
             border-bottom: none;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background-color 0.2s;
         }
 
         .focus-header:hover {
-            background: linear-gradient(135deg, rgba(233, 69, 96, 0.2) 0%, rgba(15, 52, 96, 0.5) 100%);
+            background: var(--accent2);
         }
 
         .focus-header.collapsed {
@@ -1036,9 +1033,9 @@
         }
 
         .focus-content {
-            background: linear-gradient(180deg, rgba(15, 52, 96, 0.3) 0%, rgba(22, 33, 62, 0.6) 100%);
+            background: var(--card);
             border-radius: 0 0 12px 12px;
-            border: 1px solid rgba(233, 69, 96, 0.2);
+            border: 1px solid rgba(232, 93, 78, 0.1);
             border-top: none;
             padding: 16px 20px;
             display: block;
@@ -1068,7 +1065,7 @@
             width: 28px;
             height: 28px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent) 0%, #ff6b6b 100%);
+            background: var(--accent);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1076,17 +1073,14 @@
             font-weight: 700;
             color: white;
             flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(233, 69, 96, 0.4);
         }
 
         .focus-item:nth-child(2) .focus-number {
-            background: linear-gradient(135deg, #e8a93f 0%, #e8d48a 100%);
-            box-shadow: 0 2px 8px rgba(232, 169, 63, 0.4);
+            background: var(--accent);
         }
 
         .focus-item:nth-child(3) .focus-number {
-            background: linear-gradient(135deg, #4ecca3 0%, #5dd9b0 100%);
-            box-shadow: 0 2px 8px rgba(78, 204, 163, 0.4);
+            background: var(--success);
         }
 
         .focus-details {
@@ -1127,7 +1121,7 @@
         }
 
         .focus-reason.urgent {
-            color: #e8a93f;
+            color: var(--accent);
             font-weight: 500;
         }
 
@@ -1140,7 +1134,7 @@
         }
 
         .focus-reason.quickwin {
-            color: #4ecca3;
+            color: var(--success);
         }
 
         .focus-empty {
@@ -1171,13 +1165,12 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1) 0%, rgba(15, 52, 96, 0.2) 100%);
+            background: var(--card);
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .section-icon {
             font-size: 1.8rem;
-            filter: drop-shadow(0 0 10px rgba(233, 69, 96, 0.4));
         }
 
         .section-title h2 {
@@ -1196,11 +1189,11 @@
 
         /* Mental Reps Styles */
         .mental-reps {
-            border: 1px solid rgba(78, 204, 163, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.2);
         }
 
         .mental-reps .section-header {
-            background: linear-gradient(135deg, rgba(78, 204, 163, 0.15) 0%, rgba(15, 52, 96, 0.2) 100%);
+            background: var(--card);
         }
 
         .mental-reps-cards {
@@ -1213,20 +1206,20 @@
             background: rgba(255,255,255,0.03);
             border-radius: 12px;
             padding: 16px;
-            border: 1px solid rgba(78, 204, 163, 0.15);
-            transition: all 0.2s ease;
+            border: 1px solid rgba(34, 197, 94, 0.15);
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s;
             cursor: pointer;
         }
 
         .mental-rep-card:hover {
-            background: rgba(78, 204, 163, 0.08);
-            border-color: rgba(78, 204, 163, 0.3);
+            background: rgba(34, 197, 94, 0.08);
+            border-color: rgba(34, 197, 94, 0.3);
             transform: translateX(4px);
         }
 
         .mental-rep-card.active {
-            background: rgba(78, 204, 163, 0.12);
-            border-color: rgba(78, 204, 163, 0.5);
+            background: rgba(34, 197, 94, 0.12);
+            border-color: rgba(34, 197, 94, 0.5);
         }
 
         .mental-rep-number {
@@ -1235,7 +1228,7 @@
             justify-content: center;
             width: 24px;
             height: 24px;
-            background: linear-gradient(135deg, var(--success) 0%, #5dd9b0 100%);
+            background: var(--success);
             border-radius: 50%;
             font-size: 0.75rem;
             font-weight: 700;
@@ -1275,11 +1268,11 @@
 
         /* Daily Prompts Styles */
         .daily-prompts {
-            border: 1px solid rgba(233, 69, 96, 0.2);
+            border: 1px solid rgba(232, 93, 78, 0.2);
         }
 
         .daily-prompts .section-header {
-            background: linear-gradient(135deg, rgba(233, 69, 96, 0.15) 0%, rgba(15, 52, 96, 0.2) 100%);
+            background: var(--card);
         }
 
         .prompts-list {
@@ -1293,7 +1286,7 @@
             border-radius: 12px;
             padding: 16px;
             border-left: 4px solid var(--accent);
-            transition: all 0.2s ease;
+            transition: background-color 0.2s ease;
         }
 
         .prompt-card:hover {
@@ -1302,7 +1295,7 @@
 
         .prompt-card.answered {
             border-left-color: var(--success);
-            background: rgba(78, 204, 163, 0.05);
+            background: rgba(34, 197, 94, 0.05);
         }
 
         .prompt-question {
@@ -1330,7 +1323,6 @@
         .prompt-input:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
         }
 
         .prompt-input::placeholder {
@@ -1351,7 +1343,7 @@
             color: var(--accent);
             font-weight: 600;
             padding: 4px 10px;
-            background: rgba(233, 69, 96, 0.1);
+            background: rgba(232, 93, 78, 0.1);
             border-radius: 4px;
         }
 
@@ -1368,15 +1360,15 @@
 
         /* Weekly Analysis Styles */
         .weekly-analysis {
-            border: 1px solid rgba(232, 169, 63, 0.2);
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .weekly-analysis .section-header {
-            background: linear-gradient(135deg, rgba(232, 169, 63, 0.15) 0%, rgba(15, 52, 96, 0.2) 100%);
+            background: var(--card);
         }
 
         .weekly-analysis .section-icon {
-            filter: drop-shadow(0 0 10px rgba(232, 169, 63, 0.4));
+            color: var(--accent);
         }
 
         .weekly-content {
@@ -1428,7 +1420,7 @@
         }
 
         .stat-value.warning {
-            color: #e8a93f;
+            color: var(--accent);
         }
 
         .stat-label {
@@ -1439,18 +1431,18 @@
         }
 
         .pattern-detection {
-            background: rgba(232, 169, 63, 0.08);
+            background: rgba(232, 93, 78, 0.08);
             border-radius: 10px;
             padding: 16px;
             margin-bottom: 16px;
-            border: 1px solid rgba(232, 169, 63, 0.2);
+            border: 1px solid rgba(232, 93, 78, 0.2);
         }
 
         .pattern-title {
             font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #e8a93f;
+            color: var(--accent);
             font-weight: 600;
             margin-bottom: 12px;
         }
@@ -1502,21 +1494,20 @@
 
         .weekly-input:focus {
             outline: none;
-            border-color: #e8a93f;
-            box-shadow: 0 0 0 3px rgba(232, 169, 63, 0.1);
+            border-color: var(--accent);
         }
 
         /* Journal History Styles */
         .journal-history {
-            border: 1px solid rgba(107, 181, 255, 0.2);
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .journal-history .section-header {
-            background: linear-gradient(135deg, rgba(107, 181, 255, 0.1) 0%, rgba(15, 52, 96, 0.2) 100%);
+            background: var(--card);
         }
 
         .journal-history .section-icon {
-            filter: drop-shadow(0 0 10px rgba(107, 181, 255, 0.4));
+            color: var(--success);
         }
 
         .entries-list {
@@ -1545,7 +1536,7 @@
             padding: 16px;
             margin-bottom: 12px;
             border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.2s ease;
+            transition: background-color 0.2s ease;
         }
 
         .entry-card:hover {
@@ -1599,14 +1590,14 @@
 
         .clear-all-btn {
             background: transparent;
-            border: 1px solid rgba(233, 69, 96, 0.3);
+            border: 1px solid rgba(232, 93, 78, 0.3);
             color: var(--accent);
             padding: 8px 16px;
             border-radius: 6px;
             font-size: 0.8rem;
             cursor: pointer;
             margin-top: 12px;
-            transition: all 0.2s;
+            transition: background-color 0.2s;
         }
 
         .clear-all-btn:hover {
@@ -1617,6 +1608,14 @@
         .tab:nth-child(3).active {
             color: var(--success);
             border-bottom-color: var(--success);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
