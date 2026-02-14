@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>MOVES</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0F0F10">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e94560'/%3E%3Cpath d='M30 55 L45 70 L70 35' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -13,13 +13,21 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         :root {
-            --bg: #1a1a2e;
-            --card: #16213e;
-            --accent: #e94560;
-            --accent2: #0f3460;
-            --text: #eaeaea;
-            --text-dim: #8892b0;
-            --success: #4ecca3;
+            /* Premium Dark Mode - Professional, not gaming */
+            --bg: #0F0F10;
+            --card: #18181A;
+            --accent: #E85D4E;
+            --accent2: #232326;
+            --text: #FAFAFA;
+            --text-dim: #A1A1AA;
+            --success: #22C55E;
+            
+            /* Spacing scale */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-6: 24px;
         }
         
         body {
@@ -31,126 +39,43 @@
         }
         
         header {
-            background: #0a0a0a;
-            padding: 12px 20px;
+            background: var(--bg);
+            padding: 16px 20px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(201, 162, 39, 0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Daily Affirmation Banner Styles */
+        /* Daily Affirmation Banner - Simplified, elegant */
         .affirmation-banner {
-            background: linear-gradient(135deg, rgba(201, 162, 39, 0.15) 0%, rgba(184, 148, 43, 0.08) 50%, rgba(201, 162, 39, 0.15) 100%);
-            border-top: 1px solid rgba(201, 162, 39, 0.4);
-            border-bottom: 1px solid rgba(201, 162, 39, 0.4);
-            padding: 16px 20px;
-            position: relative;
-            overflow: hidden;
+            background: var(--card);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 20px 24px;
             text-align: center;
         }
 
-        .affirmation-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(232, 212, 138, 0.2), transparent);
-            animation: shimmer 4s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            50% { left: 100%; }
-            100% { left: 100%; }
-        }
-
-        .affirmation-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
-            height: 120%;
-            background: radial-gradient(ellipse, rgba(201, 162, 39, 0.3) 0%, transparent 70%);
-            filter: blur(20px);
-            animation: pulse 3s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.05); }
+        .affirmation-glow,
+        .affirmation-sparkle,
+        .affirmation-icon {
+            display: none;
         }
 
         .affirmation-content {
-            position: relative;
-            z-index: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .affirmation-icon {
-            font-size: 1.4rem;
-            animation: float 2s ease-in-out infinite;
-            filter: drop-shadow(0 0 8px rgba(201, 162, 39, 0.6));
-        }
-
-        .affirmation-icon:last-child {
-            animation-delay: 1s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
         }
 
         .affirmation-text {
-            font-family: 'Georgia', 'Didot', serif;
-            font-size: 1.05rem;
-            font-weight: 500;
+            font-size: 15px;
+            font-weight: 400;
             font-style: italic;
-            color: #E8D48A;
-            text-shadow: 0 0 20px rgba(232, 212, 138, 0.5), 0 0 40px rgba(201, 162, 39, 0.3);
-            letter-spacing: 0.5px;
-            line-height: 1.4;
+            color: var(--text-dim);
+            letter-spacing: 0.3px;
+            line-height: 1.5;
             max-width: 600px;
-        }
-
-        .affirmation-sparkle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #E8D48A;
-            border-radius: 50%;
-            top: 20%;
-            left: 10%;
-            animation: sparkle 2s ease-in-out infinite;
-            box-shadow: 0 0 10px #E8D48A, 0 0 20px #C9A227;
-        }
-
-        .affirmation-sparkle::after {
-            content: '';
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #E8D48A;
-            border-radius: 50%;
-            top: 300%;
-            left: 800%;
-            animation: sparkle 2.5s ease-in-out infinite 0.5s;
-            box-shadow: 0 0 10px #E8D48A, 0 0 20px #C9A227;
-        }
-
-        @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1); }
         }
         
         .logo-container {
@@ -162,22 +87,27 @@
         .tabs {
             display: flex;
             background: var(--card);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .tab {
             flex: 1;
-            padding: 14px;
+            padding: 16px;
             text-align: center;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 500;
+            font-size: 15px;
             color: var(--text-dim);
-            border-bottom: 3px solid transparent;
-            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+            transition: all 0.15s ease;
+        }
+
+        .tab:hover {
+            color: var(--text);
         }
 
         .tab.active {
-            color: var(--accent);
+            color: var(--text);
             border-bottom-color: var(--accent);
         }
 
@@ -1693,33 +1623,15 @@
 <body>
     <header>
         <div class="logo-container">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" style="width: 220px; height: auto;">
-                <defs>
-                    <linearGradient id="textGoldH" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#B8942B"/><stop offset="25%" style="stop-color:#E8D48A"/><stop offset="50%" style="stop-color:#C9A227"/><stop offset="75%" style="stop-color:#E8D48A"/><stop offset="100%" style="stop-color:#B8942B"/></linearGradient>
-                    <linearGradient id="streakGoldH" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#C9A227" stop-opacity="0"/><stop offset="50%" style="stop-color:#E8D48A"/><stop offset="100%" style="stop-color:#C9A227"/></linearGradient>
-                    <filter id="glowH"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                </defs>
-                <rect width="400" height="200" fill="#0a0a0a"/>
-                <g filter="url(#glowH)">
-                    <rect x="30" y="68" width="50" height="5" rx="2" fill="url(#streakGoldH)" opacity="0.5"/>
-                    <rect x="20" y="82" width="70" height="6" rx="3" fill="url(#streakGoldH)" opacity="0.8"/>
-                    <rect x="30" y="97" width="50" height="5" rx="2" fill="url(#streakGoldH)" opacity="0.5"/>
-                </g>
-                <text x="230" y="105" font-family="Didot, Bodoni MT, Georgia, serif" font-size="72" font-weight="700" letter-spacing="6" text-anchor="middle" fill="url(#textGoldH)" filter="url(#glowH)">MOVES</text>
-                <text x="200" y="160" font-family="Didot, Bodoni MT, Georgia, serif" font-size="24" font-weight="300" font-style="italic" letter-spacing="3" text-anchor="middle" fill="#E8E8E8">Run Your Life Like a Boss</text>
-            </svg>
+            <div style="font-size: 24px; font-weight: 700; letter-spacing: 0.1em; color: var(--text);">MOVES</div>
         </div>
     </header>
     
     <!-- Daily Affirmation Banner -->
     <div class="affirmation-banner">
-        <div class="affirmation-glow"></div>
         <div class="affirmation-content">
-            <span class="affirmation-icon">👑</span>
-            <span class="affirmation-text" id="daily-affirmation">Loading your million dollar mindset...</span>
-            <span class="affirmation-icon">💎</span>
+            <span class="affirmation-text" id="daily-affirmation">"Loading your mindset..."</span>
         </div>
-        <div class="affirmation-sparkle"></div>
     </div>
 
     <div class="tabs">
