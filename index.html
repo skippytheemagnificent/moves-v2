@@ -145,8 +145,8 @@
         }
 
         .tab.active {
-            color: var(--text);
-            border-bottom-color: var(--accent);
+            color: var(--foreground);
+            border-bottom-color: var(--foreground);
         }
 
         /* Journal Section Styles */
@@ -846,21 +846,26 @@
         .step.done span { text-decoration: line-through; color: var(--text-dim); }
         
         .btn {
-            background: var(--accent);
-            color: white;
-            border: none;
+            background: var(--muted);
+            color: var(--foreground);
+            border: 1px solid var(--border);
             padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 0.85rem;
+            border-radius: var(--radius);
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
             margin-right: 8px;
             margin-top: 8px;
+            transition: background-color 0.15s, border-color 0.15s;
         }
         
-        .btn:hover { opacity: 0.9; }
-        .btn.small { padding: 4px 10px; font-size: 0.75rem; }
-        .btn.ghost { background: transparent; border: 1px solid var(--accent); }
-        .btn.danger { background: #c0392b; }
+        .btn:hover { background: var(--accent); }
+        .btn.small { padding: 4px 10px; font-size: 12px; }
+        .btn.ghost { background: transparent; border: 1px solid var(--border); }
+        .btn.ghost:hover { background: var(--muted); }
+        .btn.danger { background: var(--destructive); border-color: var(--destructive); }
+        .btn.primary { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); }
+        .btn.primary:hover { opacity: 0.9; }
         
         .add-form { display: flex; gap: 8px; margin-top: 12px; }
         
@@ -1189,20 +1194,20 @@
         }
 
         .focus-reason.urgent {
-            color: var(--accent);
+            color: var(--muted-foreground);
             font-weight: 500;
         }
 
         .focus-reason.blocking {
-            color: #6bb5ff;
+            color: var(--muted-foreground);
         }
 
         .focus-reason.stalled {
-            color: #b8a0ff;
+            color: var(--muted-foreground);
         }
 
         .focus-reason.quickwin {
-            color: var(--success);
+            color: var(--muted-foreground);
         }
 
         .focus-empty {
