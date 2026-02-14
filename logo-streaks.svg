@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+    <defs>
+        <!-- Rich 3D gold gradient -->
+        <linearGradient id="goldMain" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#8B6914"/>
+            <stop offset="20%" style="stop-color:#C9A227"/>
+            <stop offset="40%" style="stop-color:#DFBD69"/>
+            <stop offset="50%" style="stop-color:#F4E4BA"/>
+            <stop offset="60%" style="stop-color:#DFBD69"/>
+            <stop offset="80%" style="stop-color:#C9A227"/>
+            <stop offset="100%" style="stop-color:#8B6914"/>
+        </linearGradient>
+        
+        <!-- Crown highlight gradient -->
+        <linearGradient id="crownGold" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#F4E4BA"/>
+            <stop offset="50%" style="stop-color:#C9A227"/>
+            <stop offset="100%" style="stop-color:#7A5C12"/>
+        </linearGradient>
+        
+        <!-- Text gradient -->
+        <linearGradient id="textGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#B8942B"/>
+            <stop offset="25%" style="stop-color:#E8D48A"/>
+            <stop offset="50%" style="stop-color:#C9A227"/>
+            <stop offset="75%" style="stop-color:#E8D48A"/>
+            <stop offset="100%" style="stop-color:#B8942B"/>
+        </linearGradient>
+        
+        <!-- Streak gradient -->
+        <linearGradient id="streakGold" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#C9A227" stop-opacity="0"/>
+            <stop offset="50%" style="stop-color:#E8D48A"/>
+            <stop offset="100%" style="stop-color:#C9A227"/>
+        </linearGradient>
+        
+        <filter id="shadow">
+            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+        </filter>
+        
+        <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        
+        <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+            <stop offset="0%" style="stop-color:#151515"/>
+            <stop offset="100%" style="stop-color:#000000"/>
+        </radialGradient>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="400" height="400" fill="#0a0a0a"/>
+    <rect width="400" height="400" fill="url(#bg)"/>
+    
+    <!-- Crown -->
+    <g filter="url(#shadow)" transform="translate(200, 110)">
+        <!-- Crown base arc -->
+        <path d="M-80 50 Q-80 70 -55 70 L55 70 Q80 70 80 50" fill="url(#goldMain)"/>
+        
+        <!-- Left peak -->
+        <path d="M-70 50 L-50 -30 L-30 30 Z" fill="url(#crownGold)"/>
+        
+        <!-- Center peak (tallest) -->
+        <path d="M-25 35 L0 -70 L25 35 Z" fill="url(#crownGold)"/>
+        
+        <!-- Right peak -->
+        <path d="M30 30 L50 -30 L70 50 Z" fill="url(#crownGold)"/>
+        
+        <!-- Crown band -->
+        <ellipse cx="0" cy="55" rx="75" ry="15" fill="url(#goldMain)"/>
+        
+        <!-- Jewels -->
+        <circle cx="-50" cy="-18" r="5" fill="#F4E4BA"/>
+        <circle cx="0" cy="-58" r="7" fill="#F4E4BA"/>
+        <circle cx="50" cy="-18" r="5" fill="#F4E4BA"/>
+    </g>
+    
+    <!-- Run streaks before MOVES -->
+    <g filter="url(#glow)">
+        <rect x="40" y="248" width="45" height="4" rx="2" fill="url(#streakGold)" opacity="0.5"/>
+        <rect x="30" y="260" width="60" height="5" rx="2" fill="url(#streakGold)" opacity="0.7"/>
+        <rect x="40" y="273" width="45" height="4" rx="2" fill="url(#streakGold)" opacity="0.5"/>
+    </g>
+    
+    <!-- MOVES text -->
+    <text x="220" y="275" 
+          font-family="Didot, Bodoni MT, 'Times New Roman', Georgia, serif" 
+          font-size="62" 
+          font-weight="700"
+          letter-spacing="6"
+          text-anchor="middle"
+          fill="url(#textGold)"
+          filter="url(#glow)">MOVES</text>
+    
+    <!-- Tagline -->
+    <text x="200" y="320" 
+          font-family="Didot, Bodoni MT, Georgia, serif" 
+          font-size="14" 
+          font-weight="300"
+          font-style="italic"
+          letter-spacing="3"
+          text-anchor="middle"
+          fill="#E8E8E8">Run Your Life Like a Boss</text>
+</svg>

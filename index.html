@@ -1,0 +1,3323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>MOVES</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e94560'/%3E%3Cpath d='M30 55 L45 70 L70 35' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        :root {
+            --bg: #1a1a2e;
+            --card: #16213e;
+            --accent: #e94560;
+            --accent2: #0f3460;
+            --text: #eaeaea;
+            --text-dim: #8892b0;
+            --success: #4ecca3;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 100px;
+        }
+        
+        header {
+            background: #0a0a0a;
+            padding: 12px 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(201, 162, 39, 0.3);
+        }
+
+        /* Daily Affirmation Banner Styles */
+        .affirmation-banner {
+            background: linear-gradient(135deg, rgba(201, 162, 39, 0.15) 0%, rgba(184, 148, 43, 0.08) 50%, rgba(201, 162, 39, 0.15) 100%);
+            border-top: 1px solid rgba(201, 162, 39, 0.4);
+            border-bottom: 1px solid rgba(201, 162, 39, 0.4);
+            padding: 16px 20px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .affirmation-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(232, 212, 138, 0.2), transparent);
+            animation: shimmer 4s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .affirmation-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 120%;
+            background: radial-gradient(ellipse, rgba(201, 162, 39, 0.3) 0%, transparent 70%);
+            filter: blur(20px);
+            animation: pulse 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        .affirmation-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .affirmation-icon {
+            font-size: 1.4rem;
+            animation: float 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 8px rgba(201, 162, 39, 0.6));
+        }
+
+        .affirmation-icon:last-child {
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .affirmation-text {
+            font-family: 'Georgia', 'Didot', serif;
+            font-size: 1.05rem;
+            font-weight: 500;
+            font-style: italic;
+            color: #E8D48A;
+            text-shadow: 0 0 20px rgba(232, 212, 138, 0.5), 0 0 40px rgba(201, 162, 39, 0.3);
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+            max-width: 600px;
+        }
+
+        .affirmation-sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #E8D48A;
+            border-radius: 50%;
+            top: 20%;
+            left: 10%;
+            animation: sparkle 2s ease-in-out infinite;
+            box-shadow: 0 0 10px #E8D48A, 0 0 20px #C9A227;
+        }
+
+        .affirmation-sparkle::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #E8D48A;
+            border-radius: 50%;
+            top: 300%;
+            left: 800%;
+            animation: sparkle 2.5s ease-in-out infinite 0.5s;
+            box-shadow: 0 0 10px #E8D48A, 0 0 20px #C9A227;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tabs {
+            display: flex;
+            background: var(--card);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-dim);
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* Journal Section Styles */
+        .journal-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px 16px;
+        }
+
+        .journal-header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(78, 204, 163, 0.1) 0%, rgba(15, 52, 96, 0.3) 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(78, 204, 163, 0.2);
+        }
+
+        .journal-date {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--success);
+            margin-bottom: 4px;
+        }
+
+        .journal-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            font-style: italic;
+        }
+
+        .journal-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .journal-nav button {
+            background: var(--accent2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .journal-nav button:hover {
+            background: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .journal-nav .today-btn {
+            width: auto;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Daily Summary Card */
+        .daily-summary {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .daily-summary h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--success);
+            display: block;
+        }
+
+        .stat-value.streak-hot {
+            color: #ff6b6b;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        .completed-projects {
+            margin-top: 16px;
+        }
+
+        .completed-projects h4 {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .project-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(78, 204, 163, 0.15);
+            color: var(--success);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 0 6px 6px 0;
+        }
+
+        .project-chip::before {
+            content: '✓';
+            font-weight: bold;
+        }
+
+        .no-completions {
+            color: var(--text-dim);
+            font-style: italic;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Journal Entry Area */
+        .journal-entry-section {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .journal-entry-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .journal-prompts {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .journal-prompts h4 {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .prompt-list {
+            list-style: none;
+        }
+
+        .prompt-list li {
+            font-size: 0.85rem;
+            color: var(--text);
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+            opacity: 0.8;
+        }
+
+        .prompt-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .journal-textarea {
+            width: 100%;
+            min-height: 180px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 16px;
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .journal-textarea:focus {
+            outline: none;
+            border-color: var(--success);
+            background: rgba(255,255,255,0.07);
+        }
+
+        .journal-textarea::placeholder {
+            color: var(--text-dim);
+            opacity: 0.6;
+        }
+
+        .journal-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .save-status {
+            font-size: 0.85rem;
+            color: var(--success);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .save-status.visible {
+            opacity: 1;
+        }
+
+        /* History View */
+        .journal-history {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .journal-history h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .history-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+
+        .history-calendar-header {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            padding: 8px 0;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .history-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .history-day:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .history-day.other-month {
+            opacity: 0.3;
+        }
+
+        .history-day.today {
+            background: var(--accent);
+            font-weight: 600;
+        }
+
+        .history-day.selected {
+            box-shadow: 0 0 0 2px var(--success);
+        }
+
+        .history-day.has-entry::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 4px;
+            height: 4px;
+            background: var(--success);
+            border-radius: 50%;
+        }
+
+        .history-day.has-summary::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        /* Productivity Patterns */
+        .productivity-patterns {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .productivity-patterns h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pattern-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 150px;
+            padding: 20px 0;
+            gap: 8px;
+        }
+
+        .pattern-bar-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pattern-bar {
+            width: 100%;
+            max-width: 40px;
+            background: linear-gradient(to top, var(--success), rgba(78, 204, 163, 0.5));
+            border-radius: 6px 6px 0 0;
+            transition: all 0.3s;
+            min-height: 4px;
+        }
+
+        .pattern-bar:hover {
+            opacity: 0.8;
+        }
+
+        .pattern-bar.best {
+            background: linear-gradient(to top, var(--accent), rgba(233, 69, 96, 0.5));
+            box-shadow: 0 0 10px rgba(233, 69, 96, 0.3);
+        }
+
+        .pattern-label {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+
+        .pattern-value {
+            font-size: 0.7rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .pattern-insight {
+            background: rgba(78, 204, 163, 0.1);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 16px;
+            border-left: 3px solid var(--success);
+        }
+
+        .pattern-insight p {
+            font-size: 0.9rem;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        .pattern-insight strong {
+            color: var(--success);
+        }
+
+        /* Past Entry View */
+        .past-entry {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .past-entry h4 {
+            font-size: 0.9rem;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .past-entry-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text);
+            white-space: pre-wrap;
+        }
+
+        .past-entry-empty {
+            color: var(--text-dim);
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .view { display: none; }
+        .view.active { display: block; }
+        
+        .container { padding: 16px; max-width: 600px; margin: 0 auto; }
+        
+        /* Calendar Styles */
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .calendar-nav button {
+            background: var(--accent2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        .calendar-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .view-toggle {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .view-toggle button {
+            background: var(--card);
+            border: 1px solid var(--accent2);
+            color: var(--text-dim);
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+        
+        .view-toggle button.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+        
+        .calendar-grid {
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: var(--accent2);
+        }
+        
+        .weekday {
+            padding: 10px;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-dim);
+        }
+        
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        
+        .day {
+            aspect-ratio: 1;
+            padding: 4px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .day:hover { background: rgba(255,255,255,0.05); }
+        .day.other-month { color: var(--text-dim); opacity: 0.4; }
+        .day.today { background: var(--accent2); }
+        .day.today .day-num { color: var(--accent); font-weight: bold; }
+        .day.selected { background: var(--accent); }
+        
+        .day-num { font-size: 0.85rem; margin-bottom: 2px; }
+        
+        .day-events {
+            display: flex;
+            gap: 2px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .event-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+        
+        /* Daily/Weekly View */
+        .schedule {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        
+        .schedule-day {
+            margin-bottom: 16px;
+        }
+        
+        .schedule-day-header {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .schedule-day-header.today { color: var(--success); }
+        
+        .event {
+            background: rgba(255,255,255,0.05);
+            border-left: 3px solid var(--accent);
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: 0 6px 6px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .event-title { font-size: 0.9rem; }
+        .event-time { font-size: 0.75rem; color: var(--text-dim); }
+        
+        .no-events {
+            color: var(--text-dim);
+            font-style: italic;
+            font-size: 0.85rem;
+        }
+        
+        /* Annual View */
+        .annual-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .mini-month {
+            background: var(--card);
+            border-radius: 8px;
+            padding: 10px;
+        }
+        
+        .mini-month-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+        
+        .mini-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            font-size: 0.6rem;
+        }
+        
+        .mini-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+        
+        .mini-day.has-event { background: var(--success); color: var(--bg); }
+        .mini-day.today { background: var(--accent); color: white; }
+        
+        /* Business/Task Styles */
+        .business {
+            background: var(--card);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        
+        .business-header {
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .business-header h2 { font-size: 1.1rem; font-weight: 600; }
+        .business-header .progress { font-size: 0.8rem; color: var(--success); }
+        
+        .business-content { padding: 0 16px 16px; display: none; }
+        .business.open .business-content { display: block; }
+        
+        .goal {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .goal-header h3 { font-size: 0.95rem; color: var(--accent); }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .step:last-child { border-bottom: none; }
+        
+        .step input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            accent-color: var(--success);
+        }
+        
+        .step.done span { text-decoration: line-through; color: var(--text-dim); }
+        
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+        
+        .btn:hover { opacity: 0.9; }
+        .btn.small { padding: 4px 10px; font-size: 0.75rem; }
+        .btn.ghost { background: transparent; border: 1px solid var(--accent); }
+        .btn.danger { background: #c0392b; }
+        
+        .add-form { display: flex; gap: 8px; margin-top: 12px; }
+        
+        .add-form input, .event-form input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+        
+        .add-form input::placeholder, .event-form input::placeholder { color: var(--text-dim); }
+        
+        .fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(233,69,96,0.4);
+            z-index: 50;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal.open { display: flex; }
+        
+        .modal-content {
+            background: var(--card);
+            padding: 24px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .modal-content h2 { margin-bottom: 16px; }
+        
+        .modal-content input, .modal-content select {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+        
+        .modal-content label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 4px;
+        }
+        
+        .actions { display: flex; gap: 8px; }
+        .actions .btn { flex: 1; text-align: center; }
+        
+        .edit-delete { display: flex; gap: 4px; }
+
+        /* Summary Section */
+        .summary-section {
+            margin-top: 24px;
+            padding: 20px 24px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            perspective: 1000px;
+            min-height: 100px;
+        }
+
+        .coach-flip-container {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .coach-flip-container.flipped {
+            transform: rotateX(180deg);
+        }
+
+        .coach-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .coach-face.direction {
+            transform: rotateX(180deg);
+        }
+
+        .coach-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+            opacity: 0.7;
+        }
+
+        .coach-message {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            max-width: 500px;
+        }
+
+        .coach-face.motivation .coach-message {
+            font-family: 'Georgia', 'Didot', serif;
+            font-style: italic;
+            color: #E8D48A;
+            text-shadow: 0 0 20px rgba(232, 212, 138, 0.3);
+        }
+
+        .coach-face.direction .coach-message {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .coach-highlight {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .coach-urgent {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .coach-gold {
+            color: #E8D48A;
+            font-weight: 600;
+        }
+
+        /* Today's Focus Section */
+        .focus-section {
+            margin: 0 16px 16px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .focus-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.15) 0%, rgba(15, 52, 96, 0.4) 100%);
+            border-radius: 12px 12px 0 0;
+            border: 1px solid rgba(233, 69, 96, 0.3);
+            border-bottom: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .focus-header:hover {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.2) 0%, rgba(15, 52, 96, 0.5) 100%);
+        }
+
+        .focus-header.collapsed {
+            border-radius: 12px;
+            border-bottom: 1px solid rgba(233, 69, 96, 0.3);
+        }
+
+        .focus-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.5px;
+        }
+
+        .focus-title-icon {
+            font-size: 1.2rem;
+        }
+
+        .focus-toggle {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            transition: transform 0.2s;
+        }
+
+        .focus-header.collapsed .focus-toggle {
+            transform: rotate(-90deg);
+        }
+
+        .focus-content {
+            background: linear-gradient(180deg, rgba(15, 52, 96, 0.3) 0%, rgba(22, 33, 62, 0.6) 100%);
+            border-radius: 0 0 12px 12px;
+            border: 1px solid rgba(233, 69, 96, 0.2);
+            border-top: none;
+            padding: 16px 20px;
+            display: block;
+        }
+
+        .focus-content.collapsed {
+            display: none;
+        }
+
+        .focus-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .focus-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .focus-item:first-child {
+            padding-top: 0;
+        }
+
+        .focus-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent) 0%, #ff6b6b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(233, 69, 96, 0.4);
+        }
+
+        .focus-item:nth-child(2) .focus-number {
+            background: linear-gradient(135deg, #e8a93f 0%, #e8d48a 100%);
+            box-shadow: 0 2px 8px rgba(232, 169, 63, 0.4);
+        }
+
+        .focus-item:nth-child(3) .focus-number {
+            background: linear-gradient(135deg, #4ecca3 0%, #5dd9b0 100%);
+            box-shadow: 0 2px 8px rgba(78, 204, 163, 0.4);
+        }
+
+        .focus-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .focus-task {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .focus-project {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .focus-reason {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .focus-reason-icon {
+            font-size: 0.9rem;
+        }
+
+        .focus-reason.overdue {
+            color: #ff6b6b;
+            font-weight: 500;
+        }
+
+        .focus-reason.urgent {
+            color: #e8a93f;
+            font-weight: 500;
+        }
+
+        .focus-reason.blocking {
+            color: #6bb5ff;
+        }
+
+        .focus-reason.stalled {
+            color: #b8a0ff;
+        }
+
+        .focus-reason.quickwin {
+            color: #4ecca3;
+        }
+
+        .focus-empty {
+            text-align: center;
+            padding: 24px 16px;
+            color: var(--text-dim);
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        .focus-empty-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* Journal Section Styles */
+        .journal-section {
+            background: var(--card);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .section-header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1) 0%, rgba(15, 52, 96, 0.2) 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .section-icon {
+            font-size: 1.8rem;
+            filter: drop-shadow(0 0 10px rgba(233, 69, 96, 0.4));
+        }
+
+        .section-title h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .section-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin: 0;
+        }
+
+        /* Mental Reps Styles */
+        .mental-reps {
+            border: 1px solid rgba(78, 204, 163, 0.2);
+        }
+
+        .mental-reps .section-header {
+            background: linear-gradient(135deg, rgba(78, 204, 163, 0.15) 0%, rgba(15, 52, 96, 0.2) 100%);
+        }
+
+        .mental-reps-cards {
+            padding: 16px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .mental-rep-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid rgba(78, 204, 163, 0.15);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .mental-rep-card:hover {
+            background: rgba(78, 204, 163, 0.08);
+            border-color: rgba(78, 204, 163, 0.3);
+            transform: translateX(4px);
+        }
+
+        .mental-rep-card.active {
+            background: rgba(78, 204, 163, 0.12);
+            border-color: rgba(78, 204, 163, 0.5);
+        }
+
+        .mental-rep-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success) 0%, #5dd9b0 100%);
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--bg);
+            margin-bottom: 10px;
+        }
+
+        .mental-rep-question {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .mental-rep-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.2);
+            color: var(--text);
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+
+        .mental-rep-input:focus {
+            outline: none;
+            border-color: var(--success);
+        }
+
+        .mental-rep-input::placeholder {
+            color: var(--text-dim);
+        }
+
+        /* Daily Prompts Styles */
+        .daily-prompts {
+            border: 1px solid rgba(233, 69, 96, 0.2);
+        }
+
+        .daily-prompts .section-header {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.15) 0%, rgba(15, 52, 96, 0.2) 100%);
+        }
+
+        .prompts-list {
+            padding: 16px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .prompt-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 16px;
+            border-left: 4px solid var(--accent);
+            transition: all 0.2s ease;
+        }
+
+        .prompt-card:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .prompt-card.answered {
+            border-left-color: var(--success);
+            background: rgba(78, 204, 163, 0.05);
+        }
+
+        .prompt-question {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .prompt-input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            background: rgba(0,0,0,0.2);
+            color: var(--text);
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+            line-height: 1.5;
+        }
+
+        .prompt-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
+        }
+
+        .prompt-input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .prompt-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .prompt-category {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            font-weight: 600;
+            padding: 4px 10px;
+            background: rgba(233, 69, 96, 0.1);
+            border-radius: 4px;
+        }
+
+        .save-indicator {
+            font-size: 0.75rem;
+            color: var(--success);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .save-indicator.visible {
+            opacity: 1;
+        }
+
+        /* Weekly Analysis Styles */
+        .weekly-analysis {
+            border: 1px solid rgba(232, 169, 63, 0.2);
+        }
+
+        .weekly-analysis .section-header {
+            background: linear-gradient(135deg, rgba(232, 169, 63, 0.15) 0%, rgba(15, 52, 96, 0.2) 100%);
+        }
+
+        .weekly-analysis .section-icon {
+            filter: drop-shadow(0 0 10px rgba(232, 169, 63, 0.4));
+        }
+
+        .weekly-content {
+            padding: 16px;
+        }
+
+        .weekly-locked {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-dim);
+        }
+
+        .weekly-locked-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .weekly-locked-text {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .weekly-locked-subtext {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .weekly-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 4px;
+        }
+
+        .stat-value.warning {
+            color: #e8a93f;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pattern-detection {
+            background: rgba(232, 169, 63, 0.08);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(232, 169, 63, 0.2);
+        }
+
+        .pattern-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #e8a93f;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .pattern-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        .pattern-highlight {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .pattern-lowlight {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .weekly-prompt {
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .weekly-prompt-question {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .weekly-input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            background: rgba(0,0,0,0.2);
+            color: var(--text);
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+            line-height: 1.5;
+        }
+
+        .weekly-input:focus {
+            outline: none;
+            border-color: #e8a93f;
+            box-shadow: 0 0 0 3px rgba(232, 169, 63, 0.1);
+        }
+
+        /* Journal History Styles */
+        .journal-history {
+            border: 1px solid rgba(107, 181, 255, 0.2);
+        }
+
+        .journal-history .section-header {
+            background: linear-gradient(135deg, rgba(107, 181, 255, 0.1) 0%, rgba(15, 52, 96, 0.2) 100%);
+        }
+
+        .journal-history .section-icon {
+            filter: drop-shadow(0 0 10px rgba(107, 181, 255, 0.4));
+        }
+
+        .entries-list {
+            padding: 16px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .entries-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .entries-list::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 3px;
+        }
+
+        .entries-list::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        .entry-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.2s ease;
+        }
+
+        .entry-card:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .entry-date {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .entry-type {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            color: var(--text-dim);
+        }
+
+        .entry-question {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .entry-answer {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .empty-entries {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-dim);
+            font-style: italic;
+        }
+
+        .clear-all-btn {
+            background: transparent;
+            border: 1px solid rgba(233, 69, 96, 0.3);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: all 0.2s;
+        }
+
+        .clear-all-btn:hover {
+            background: rgba(233, 69, 96, 0.1);
+        }
+
+        /* Journal Tab Active State */
+        .tab:nth-child(3).active {
+            color: var(--success);
+            border-bottom-color: var(--success);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" style="width: 220px; height: auto;">
+                <defs>
+                    <linearGradient id="textGoldH" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#B8942B"/><stop offset="25%" style="stop-color:#E8D48A"/><stop offset="50%" style="stop-color:#C9A227"/><stop offset="75%" style="stop-color:#E8D48A"/><stop offset="100%" style="stop-color:#B8942B"/></linearGradient>
+                    <linearGradient id="streakGoldH" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#C9A227" stop-opacity="0"/><stop offset="50%" style="stop-color:#E8D48A"/><stop offset="100%" style="stop-color:#C9A227"/></linearGradient>
+                    <filter id="glowH"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                </defs>
+                <rect width="400" height="200" fill="#0a0a0a"/>
+                <g filter="url(#glowH)">
+                    <rect x="30" y="68" width="50" height="5" rx="2" fill="url(#streakGoldH)" opacity="0.5"/>
+                    <rect x="20" y="82" width="70" height="6" rx="3" fill="url(#streakGoldH)" opacity="0.8"/>
+                    <rect x="30" y="97" width="50" height="5" rx="2" fill="url(#streakGoldH)" opacity="0.5"/>
+                </g>
+                <text x="230" y="105" font-family="Didot, Bodoni MT, Georgia, serif" font-size="72" font-weight="700" letter-spacing="6" text-anchor="middle" fill="url(#textGoldH)" filter="url(#glowH)">MOVES</text>
+                <text x="200" y="160" font-family="Didot, Bodoni MT, Georgia, serif" font-size="24" font-weight="300" font-style="italic" letter-spacing="3" text-anchor="middle" fill="#E8E8E8">Run Your Life Like a Boss</text>
+            </svg>
+        </div>
+    </header>
+    
+    <!-- Daily Affirmation Banner -->
+    <div class="affirmation-banner">
+        <div class="affirmation-glow"></div>
+        <div class="affirmation-content">
+            <span class="affirmation-icon">👑</span>
+            <span class="affirmation-text" id="daily-affirmation">Loading your million dollar mindset...</span>
+            <span class="affirmation-icon">💎</span>
+        </div>
+        <div class="affirmation-sparkle"></div>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab('tasks')">Tasks</div>
+        <div class="tab" onclick="switchTab('calendar')">Calendar</div>
+        <div class="tab" onclick="switchTab('journal')">Journal</div>
+    </div>
+    
+    <div id="tasks-view" class="view active">
+        <!-- Today's Focus Section -->
+        <div class="focus-section" id="focus-section">
+            <div class="focus-header" onclick="toggleFocus()">
+                <div class="focus-title">
+                    <span class="focus-title-icon">📍</span>
+                    TODAY'S FOCUS
+                </div>
+                <span class="focus-toggle" id="focus-toggle">▼</span>
+            </div>
+            <div class="focus-content" id="focus-content">
+                <div id="focus-list">Loading priorities...</div>
+            </div>
+        </div>
+        <div class="container" id="app"></div>
+        <div class="container">
+            <div class="summary-section" id="summary-section">
+                <div class="coach-flip-container" id="coach-flip-container">
+                    <div class="coach-face motivation">
+                        <div class="coach-label">Daily Motivation</div>
+                        <div class="coach-message" id="motivation-message">You're building something that matters. Keep stacking.</div>
+                    </div>
+                    <div class="coach-face direction">
+                        <div class="coach-label">Today's Direction</div>
+                        <div class="coach-message" id="direction-message">Loading your next move...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="journal-view" class="view">
+        <div class="journal-container">
+            <!-- Date Navigation -->
+            <div class="journal-nav">
+                <button onclick="navJournalDate(-1)">‹</button>
+                <button class="today-btn" onclick="goToToday()">Today</button>
+                <button onclick="navJournalDate(1)">›</button>
+            </div>
+
+            <!-- Header with Date -->
+            <div class="journal-header">
+                <div class="journal-date" id="journal-date-display">Today</div>
+                <div class="journal-subtitle" id="journal-date-subtitle">Reflect on your progress</div>
+            </div>
+
+            <!-- Daily Summary (Auto-generated) -->
+            <div class="daily-summary">
+                <h3>📊 Daily Summary</h3>
+                <div class="summary-stats" id="journal-summary-stats">
+                    <div class="stat-box">
+                        <span class="stat-value" id="stat-completed">0</span>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-value" id="stat-streak">0</span>
+                        <div class="stat-label">Day Streak</div>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-value" id="stat-projects">0</span>
+                        <div class="stat-label">Projects</div>
+                    </div>
+                </div>
+                <div class="completed-projects" id="completed-projects-list">
+                    <h4>Projects that got attention:</h4>
+                    <div id="projects-chips"></div>
+                </div>
+            </div>
+
+            <!-- Journal Entry Area -->
+            <div class="journal-entry-section">
+                <h3>📝 Today's Reflection</h3>
+                <div class="journal-prompts">
+                    <h4>Reflection Prompts:</h4>
+                    <ul class="prompt-list">
+                        <li>What went well today?</li>
+                        <li>What blocked you?</li>
+                        <li>What will you do differently tomorrow?</li>
+                    </ul>
+                </div>
+                <textarea
+                    class="journal-textarea"
+                    id="journal-textarea"
+                    placeholder="Take a moment to reflect on your day...&#10;&#10;What did you accomplish?&#10;What challenges did you face?&#10;What are you grateful for?"
+                ></textarea>
+                <div class="journal-actions">
+                    <span class="save-status" id="save-status">✓ Saved</span>
+                    <button class="btn" onclick="saveJournalEntry()">Save Entry</button>
+                </div>
+            </div>
+
+            <!-- Past Entry View (if exists) -->
+            <div class="past-entry" id="past-entry-section" style="display: none;">
+                <h4>🕘 Journal Entry</h4>
+                <div class="past-entry-content" id="past-entry-content"></div>
+            </div>
+
+            <!-- History Calendar -->
+            <div class="journal-history">
+                <h3>📅 History</h3>
+                <div class="history-calendar" id="history-calendar">
+                    <!-- Calendar generated by JS -->
+                </div>
+            </div>
+
+            <!-- Productivity Patterns -->
+            <div class="productivity-patterns">
+                <h3>📈 Productivity Patterns</h3>
+                <div class="pattern-chart" id="pattern-chart">
+                    <!-- Bars generated by JS -->
+                </div>
+                <div class="pattern-insight" id="pattern-insight">
+                    <p>Loading your productivity insights...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="calendar-view" class="view">
+        <div class="container">
+            <div class="calendar-header">
+                <div class="calendar-nav">
+                    <button onclick="navCalendar(-1)">‹</button>
+                    <span class="calendar-title" id="calendar-title">February 2026</span>
+                    <button onclick="navCalendar(1)">›</button>
+                </div>
+                <div class="view-toggle">
+                    <button class="active" onclick="setCalView('daily')">Day</button>
+                    <button onclick="setCalView('weekly')">Week</button>
+                    <button onclick="setCalView('monthly')">Month</button>
+                    <button onclick="setCalView('annual')">Year</button>
+                </div>
+            </div>
+            <div id="calendar-content"></div>
+        </div>
+    </div>
+
+    <button class="fab" onclick="openAdd()">+</button>
+    
+    <div class="modal" id="modal">
+        <div class="modal-content" id="modal-inner"></div>
+    </div>
+
+    <script>
+        let data = JSON.parse(localStorage.getItem('moves-data')) || getDefaultData();
+        let currentTab = 'tasks';
+        let calView = 'monthly';
+        let calDate = new Date();
+        let selectedDate = new Date();
+        
+        function getDefaultData() {
+            return {
+                businesses: [
+                    { id: 1, name: "Laugh Therapy", goals: [
+                        { id: 1, name: "Murder Mystery Events", steps: [
+                            { id: 1, text: "Book venue for March event", done: false },
+                            { id: 2, text: "Write script", done: false },
+                            { id: 3, text: "Cast actors", done: false }
+                        ]},
+                        { id: 2, name: "Haha Tuesday", steps: [
+                            { id: 1, text: "Book comedians for Feb", done: false },
+                            { id: 2, text: "Promote on social media", done: false }
+                        ]},
+                        { id: 3, name: "Weekly Grant Rhythm (5/week → $250K)", steps: [
+                            { id: 1, text: "Build grant prospect list - small grants (under $10K)", done: false },
+                            { id: 2, text: "Build grant prospect list - medium grants ($10K-$50K)", done: false },
+                            { id: 3, text: "Build grant prospect list - large grants ($50K+)", done: false },
+                            { id: 4, text: "WEEKLY: Submit 3 small/quick grants", done: false },
+                            { id: 5, text: "WEEKLY: Submit 1 medium grant", done: false },
+                            { id: 6, text: "WEEKLY: Submit 1 large swing-for-the-fences grant", done: false },
+                            { id: 7, text: "Track submissions in spreadsheet (name, amount, deadline, status)", done: false },
+                            { id: 8, text: "Track success rate - adjust strategy after 20 submissions", done: false },
+                            { id: 9, text: "Follow up on pending applications (2 weeks after submission)", done: false },
+                            { id: 10, text: "Celebrate wins - update team on successful grants", done: false }
+                        ]}
+                    ]},
+                    { id: 2, name: "Plot House Productions", goals: [
+                        { id: 1, name: "Black Dads Film", steps: [
+                            { id: 1, text: "Complete first draft", done: true },
+                            { id: 2, text: "Revision pass", done: false },
+                            { id: 3, text: "Send to readers", done: false }
+                        ]}
+                    ]},
+                    { id: 3, name: "Community Passageways", goals: [
+                        { id: 1, name: "Case Management", steps: [
+                            { id: 1, text: "Weekly client check-ins", done: false },
+                            { id: 2, text: "Update Apricot notes", done: false }
+                        ]},
+                        { id: 2, name: "Participant App - Points & Rewards System", steps: [
+                            { id: 1, text: "Build point system into app (5/10/25/50/100 pts per task type)", done: false },
+                            { id: 2, text: "Set up reward tiers ($5 at 100pts, $10 at 250pts, $25 at 500pts)", done: false },
+                            { id: 3, text: "Add streak bonus multiplier (7-day = 2x)", done: false },
+                            { id: 4, text: "Create sponsor prospect list (Target, Walmart, Dick's, T-Mobile)", done: false },
+                            { id: 5, text: "Apply for gift card donations - Target (Feb-Dec)", done: false },
+                            { id: 6, text: "Apply for gift card donations - Walmart (local store)", done: false },
+                            { id: 7, text: "Apply for gift card donations - Dick's Sporting Goods", done: false },
+                            { id: 8, text: "Budget: estimate 20 participants × $10/month = $200/month needed", done: false },
+                            { id: 9, text: "Test with 3-5 pilot participants before full rollout", done: false }
+                        ]},
+                        { id: 3, name: "Participant Tutorial / How-To Video", steps: [
+                            { id: 1, text: "Write script - cover app install, navigation, adding goals", done: false },
+                            { id: 2, text: "Write script - explain point system and rewards", done: false },
+                            { id: 3, text: "Write script - show daily check-in and journaling", done: false },
+                            { id: 4, text: "Record screen walkthrough of app features", done: false },
+                            { id: 5, text: "Record face-to-camera intro (why this app matters)", done: false },
+                            { id: 6, text: "Edit video - keep under 5 minutes", done: false },
+                            { id: 7, text: "Add captions/subtitles for accessibility", done: false },
+                            { id: 8, text: "Upload to YouTube (unlisted or public)", done: false },
+                            { id: 9, text: "Create QR code linking to tutorial", done: false },
+                            { id: 10, text: "Test with 2-3 participants - get feedback", done: false }
+                        ]}
+                    ]},
+                    { id: 4, name: "Personal Projects", goals: [
+                        { id: 1, name: "JOJO's Adventure Book", steps: [] },
+                        { id: 2, name: "YouTube Animated Series", steps: [] }
+                    ]},
+                    { id: 5, name: "Book Publishing", goals: [
+                        { id: 1, name: "The Cookout Trivia", steps: [] },
+                        { id: 2, name: "Act Out Games", steps: [] }
+                    ]}
+                ],
+                events: []
+            };
+        }
+        
+        if (!data.events) data.events = [];
+        
+        function save() {
+            localStorage.setItem('moves-data', JSON.stringify(data));
+            // Refresh direction message without restarting the flip interval
+            const directionEl = document.getElementById('direction-message');
+            if (directionEl) directionEl.innerHTML = getDirectionMessage();
+            renderFocus();
+        }
+
+        // Today's Focus Section Logic
+        let focusCollapsed = localStorage.getItem('focus-collapsed') === 'true';
+
+        function toggleFocus() {
+            focusCollapsed = !focusCollapsed;
+            localStorage.setItem('focus-collapsed', focusCollapsed);
+            const header = document.querySelector('.focus-header');
+            const content = document.getElementById('focus-content');
+            const toggle = document.getElementById('focus-toggle');
+            if (header) header.classList.toggle('collapsed', focusCollapsed);
+            if (content) content.classList.toggle('collapsed', focusCollapsed);
+            if (toggle) toggle.textContent = focusCollapsed ? '▶' : '▼';
+        }
+
+        function getTodayString() {
+            return new Date().toISOString().split('T')[0];
+        }
+
+        function getTomorrowString() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            return tomorrow.toISOString().split('T')[0];
+        }
+
+        function getStalledGoals() {
+            const history = JSON.parse(localStorage.getItem('moves-completion-history')) || {};
+            const stalled = [];
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+            data.businesses.forEach(b => {
+                b.goals.forEach(g => {
+                    if (g.steps.length === 0) return;
+                    
+                    // Check if any steps are incomplete
+                    const incompleteSteps = g.steps.filter(s => !s.done);
+                    if (incompleteSteps.length === 0) return;
+
+                    // Find last activity on this goal
+                    let lastActivity = null;
+                    g.steps.forEach(s => {
+                        const stepKey = `${b.id}-${g.id}-${s.id}`;
+                        const entry = history[stepKey];
+                        if (entry) {
+                            const date = new Date(typeof entry === 'string' ? entry : entry.date);
+                            if (!lastActivity || date > lastActivity) {
+                                lastActivity = date;
+                            }
+                        }
+                    });
+
+                    // If no activity or last activity was 7+ days ago
+                    if (!lastActivity || lastActivity < sevenDaysAgo) {
+                        const daysSince = lastActivity 
+                            ? Math.floor((new Date() - lastActivity) / (1000 * 60 * 60 * 24))
+                            : 30; // Default to 30 if never touched
+                        stalled.push({
+                            business: b,
+                            goal: g,
+                            daysStalled: daysSince,
+                            incompleteSteps: incompleteSteps
+                        });
+                    }
+                });
+            });
+
+            return stalled;
+        }
+
+        function getPriorityItems() {
+            const today = getTodayString();
+            const tomorrow = getTomorrowString();
+            const todayDate = new Date();
+            todayDate.setHours(0, 0, 0, 0);
+
+            const priorities = [];
+
+            // 1. Overdue items from events
+            data.events.forEach(e => {
+                const eventDate = new Date(e.date + 'T12:00:00');
+                if (eventDate < todayDate) {
+                    const daysOverdue = Math.floor((todayDate - eventDate) / (1000 * 60 * 60 * 24));
+                    priorities.push({
+                        type: 'event',
+                        name: e.title,
+                        project: 'Calendar Event',
+                        reason: 'overdue',
+                        reasonText: `Overdue by ${daysOverdue} day${daysOverdue > 1 ? 's' : ''}`,
+                        icon: '🔥',
+                        priority: 1
+                    });
+                }
+            });
+
+            // 2. Due today/tomorrow from events
+            data.events.forEach(e => {
+                const eventDate = new Date(e.date + 'T12:00:00');
+                const daysDiff = Math.ceil((eventDate - todayDate) / (1000 * 60 * 60 * 24));
+                
+                if (daysDiff === 0 && !priorities.find(p => p.name === e.title && p.type === 'event')) {
+                    priorities.push({
+                        type: 'event',
+                        name: e.title,
+                        project: 'Calendar Event',
+                        reason: 'urgent',
+                        reasonText: 'Due today',
+                        icon: '⏰',
+                        priority: 2
+                    });
+                } else if (daysDiff === 1 && !priorities.find(p => p.name === e.title && p.type === 'event')) {
+                    priorities.push({
+                        type: 'event',
+                        name: e.title,
+                        project: 'Calendar Event',
+                        reason: 'urgent',
+                        reasonText: 'Due tomorrow',
+                        icon: '⚠️',
+                        priority: 2
+                    });
+                }
+            });
+
+            // 3. Blocking items - first incomplete step in goals with many steps
+            data.businesses.forEach(b => {
+                b.goals.forEach(g => {
+                    if (g.steps.length >= 3) {
+                        const firstIncomplete = g.steps.find(s => !s.done);
+                        if (firstIncomplete) {
+                            // Check if not already added
+                            const alreadyAdded = priorities.find(p => 
+                                p.type === 'step' && p.stepId === firstIncomplete.id
+                            );
+                            if (!alreadyAdded) {
+                                priorities.push({
+                                    type: 'step',
+                                    stepId: firstIncomplete.id,
+                                    name: firstIncomplete.text,
+                                    project: `${b.name} → ${g.name}`,
+                                    reason: 'blocking',
+                                    reasonText: `Blocking ${g.steps.filter(s => !s.done).length} other steps`,
+                                    icon: '🚧',
+                                    priority: 3
+                                });
+                            }
+                        }
+                    }
+                });
+            });
+
+            // 4. Stalled high-value goals
+            const stalledGoals = getStalledGoals();
+            stalledGoals.forEach(sg => {
+                const firstIncomplete = sg.goal.steps.find(s => !s.done);
+                if (firstIncomplete) {
+                    const alreadyAdded = priorities.find(p => 
+                        p.type === 'step' && p.stepId === firstIncomplete.id
+                    );
+                    if (!alreadyAdded) {
+                        priorities.push({
+                            type: 'step',
+                            stepId: firstIncomplete.id,
+                            name: firstIncomplete.text,
+                            project: `${sg.business.name} → ${sg.goal.name}`,
+                            reason: 'stalled',
+                            reasonText: `Stalled ${sg.daysStalled} days - jump back in`,
+                            icon: '💤',
+                            priority: 4
+                        });
+                    }
+                }
+            });
+
+            // 5. Quick wins - incomplete steps from goals with few remaining steps
+            data.businesses.forEach(b => {
+                b.goals.forEach(g => {
+                    const incomplete = g.steps.filter(s => !s.done);
+                    if (incomplete.length > 0 && incomplete.length <= 2) {
+                        const step = incomplete[0];
+                        const alreadyAdded = priorities.find(p => 
+                            p.type === 'step' && p.stepId === step.id
+                        );
+                        if (!alreadyAdded) {
+                            priorities.push({
+                                type: 'step',
+                                stepId: step.id,
+                                name: step.text,
+                                project: `${b.name} → ${g.name}`,
+                                reason: 'quickwin',
+                                reasonText: 'Quick win - only ' + incomplete.length + ' step' + (incomplete.length > 1 ? 's' : '') + ' left',
+                                icon: '⚡',
+                                priority: 5
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Sort by priority and return top 3
+            return priorities.sort((a, b) => a.priority - b.priority).slice(0, 3);
+        }
+
+        function renderFocus() {
+            const focusList = document.getElementById('focus-list');
+            const header = document.querySelector('.focus-header');
+            const content = document.getElementById('focus-content');
+            const toggle = document.getElementById('focus-toggle');
+            
+            if (!focusList) return;
+
+            // Apply collapsed state
+            if (header) header.classList.toggle('collapsed', focusCollapsed);
+            if (content) content.classList.toggle('collapsed', focusCollapsed);
+            if (toggle) toggle.textContent = focusCollapsed ? '▶' : '▼';
+
+            const priorities = getPriorityItems();
+
+            if (priorities.length === 0) {
+                focusList.innerHTML = `
+                    <div class="focus-empty">
+                        <span class="focus-empty-icon">🎯</span>
+                        No fires today. Pick your highest-leverage goal and attack.
+                    </div>
+                `;
+                return;
+            }
+
+            focusList.innerHTML = priorities.map((item, index) => `
+                <div class="focus-item">
+                    <div class="focus-number">${index + 1}</div>
+                    <div class="focus-details">
+                        <div class="focus-task">${item.name}</div>
+                        <div class="focus-project">${item.project}</div>
+                        <div class="focus-reason ${item.reason}">
+                            <span class="focus-reason-icon">${item.icon}</span>
+                            ${item.reasonText}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Coach Section - Motivation & Direction Flip
+        const motivationMessages = [
+            "You're building something that matters. Keep stacking.",
+            "This is how empires start. One step at a time.",
+            "You've got the vision. Now execute.",
+            "I am a money magnet. Wealth flows to me effortlessly.",
+            "I think like a CEO. I move like a boss.",
+            "My ideas are worth millions. My execution is priceless.",
+            "I don't chase. I attract.",
+            "Winners don't wait. Winners execute.",
+            "I am building an empire, one move at a time.",
+            "Abundance is my birthright. Success is my reality.",
+            "Every decision I make multiplies my wealth.",
+            "I am the architect of my own fortune.",
+            "Money works for me while I sleep. That's boss thinking.",
+            "I turn obstacles into opportunities. That's the millionaire mindset.",
+            "My vision is clear. My moves are calculated. My success is inevitable.",
+            "I create value and wealth follows.",
+            "Fear is temporary. Regret is forever. I choose action.",
+            "I am not lucky. I am prepared, focused, and relentless.",
+            "My time is valuable. I invest it wisely.",
+            "I don't ask for permission to be great. I just am.",
+            "Every day is a new opportunity to level up.",
+            "I think big, act bold, and win always.",
+            "My potential is unlimited. My grind is unmatched.",
+            "I build generational wealth starting today.",
+            "I am the main character in my success story.",
+            "Comfort zones are for the average. I am exceptional.",
+            "I see what others don't. I do what others won't.",
+            "Success is not an option. It's the only destination."
+        ];
+
+        function getDailyMotivation() {
+            const today = new Date();
+            const dateNumber = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+            const index = dateNumber % motivationMessages.length;
+            return motivationMessages[index];
+        }
+
+        function getDirectionMessage() {
+            const directions = [];
+
+            // 1. Check for stalled goals (goals with no progress)
+            const stalledGoals = [];
+            data.businesses.forEach(b => {
+                b.goals.forEach(g => {
+                    if (g.steps.length > 0) {
+                        const doneCount = g.steps.filter(s => s.done).length;
+                        if (doneCount === 0) {
+                            stalledGoals.push({ business: b.name, goal: g.name, steps: g.steps });
+                        }
+                    }
+                });
+            });
+
+            if (stalledGoals.length > 0) {
+                const sg = stalledGoals[0];
+                directions.push(`Start with <span class="coach-highlight">${sg.goal}</span> — tackle "${sg.steps[0].text}" today`);
+            }
+
+            // 2. Check for upcoming deadlines
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const upcomingEvents = data.events
+                .filter(e => {
+                    const eventDate = new Date(e.date + 'T12:00:00');
+                    const daysDiff = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
+                    return daysDiff >= 0 && daysDiff <= 3;
+                })
+                .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            if (upcomingEvents.length > 0) {
+                const event = upcomingEvents[0];
+                const eventDate = new Date(event.date + 'T12:00:00');
+                const daysDiff = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
+                const dayText = daysDiff === 0 ? 'today' : daysDiff === 1 ? 'tomorrow' : `in ${daysDiff} days`;
+                directions.push(`<span class="coach-urgent">${event.title}</span> is ${dayText} — prep time`);
+            }
+
+            // 3. Check for imbalance (one business getting all attention)
+            const bizActivity = {};
+            const history = JSON.parse(localStorage.getItem('moves-completion-history')) || {};
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+            Object.values(history).forEach(entry => {
+                if (typeof entry === 'object' && entry.date) {
+                    const date = new Date(entry.date);
+                    if (date >= oneWeekAgo && entry.businessName) {
+                        bizActivity[entry.businessName] = (bizActivity[entry.businessName] || 0) + 1;
+                    }
+                }
+            });
+
+            const activeBizs = Object.keys(bizActivity);
+            if (activeBizs.length === 1 && data.businesses.length > 1) {
+                const neglected = data.businesses.find(b => b.name !== activeBizs[0]);
+                if (neglected && neglected.goals.some(g => g.steps.length > 0 && g.steps.some(s => !s.done))) {
+                    directions.push(`Give <span class="coach-gold">${neglected.name}</span> some attention today`);
+                }
+            }
+
+            // 4. Check completion streak
+            const streak = getCompletionStreak();
+            if (streak >= 3) {
+                directions.push(`You're on a <span class="coach-gold">${streak}-day streak</span>! Keep the momentum`);
+            }
+
+            // 5. Next action from any incomplete goal
+            if (directions.length === 0) {
+                for (const b of data.businesses) {
+                    for (const g of b.goals) {
+                        const nextStep = g.steps.find(s => !s.done);
+                        if (nextStep) {
+                            directions.push(`Next up: <span class="coach-highlight">${nextStep.text}</span>`);
+                            break;
+                        }
+                    }
+                    if (directions.length > 0) break;
+                }
+            }
+
+            // 6. Default message
+            if (directions.length === 0) {
+                const totalSteps = data.businesses.reduce((sum, b) => sum + b.goals.reduce((gSum, g) => gSum + g.steps.length, 0), 0);
+                if (totalSteps === 0) {
+                    directions.push('Add some goals and steps to get your direction 🎯');
+                } else {
+                    directions.push('All caught up! Time to set new targets 🚀');
+                }
+            }
+
+            return directions[0];
+        }
+
+        let coachFlipInterval;
+        let isShowingMotivation = true;
+
+        function startCoachFlip() {
+            // Update messages
+            document.getElementById('motivation-message').innerHTML = getDailyMotivation();
+            document.getElementById('direction-message').innerHTML = getDirectionMessage();
+
+            // Clear existing interval if any
+            if (coachFlipInterval) clearInterval(coachFlipInterval);
+
+            // Start the flip animation
+            coachFlipInterval = setInterval(() => {
+                const container = document.getElementById('coach-flip-container');
+                isShowingMotivation = !isShowingMotivation;
+                container.classList.toggle('flipped', !isShowingMotivation);
+            }, 5000);
+        }
+
+        // Summary Section Logic
+        function getUpcomingDeadline() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const upcomingEvents = data.events
+                .filter(e => {
+                    const eventDate = new Date(e.date + 'T12:00:00');
+                    return eventDate >= today;
+                })
+                .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            if (upcomingEvents.length === 0) return null;
+
+            const nextEvent = upcomingEvents[0];
+            const eventDate = new Date(nextEvent.date + 'T12:00:00');
+            const daysDiff = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
+
+            return {
+                title: nextEvent.title,
+                days: daysDiff,
+                date: nextEvent.date
+            };
+        }
+
+        function getRecentWins() {
+            // Get completion history from localStorage or initialize
+            let history = JSON.parse(localStorage.getItem('moves-completion-history')) || {};
+            const today = new Date().toISOString().split('T')[0];
+
+            // Count completed steps today and track details
+            let completedToday = 0;
+            data.businesses.forEach(b => {
+                b.goals.forEach(g => {
+                    g.steps.forEach(s => {
+                        if (s.done) {
+                            // Track when step was completed (approximate based on history)
+                            const stepKey = `${b.id}-${g.id}-${s.id}`;
+                            if (!history[stepKey]) {
+                                history[stepKey] = {
+                                    date: today,
+                                    businessName: b.name,
+                                    goalName: g.name
+                                };
+                                completedToday++;
+                            }
+                        }
+                    });
+                });
+            });
+
+            // Clean up history for deleted steps
+            const validKeys = new Set();
+            data.businesses.forEach(b => {
+                b.goals.forEach(g => {
+                    g.steps.forEach(s => {
+                        validKeys.add(`${b.id}-${g.id}-${s.id}`);
+                    });
+                });
+            });
+
+            Object.keys(history).forEach(key => {
+                if (!validKeys.has(key)) delete history[key];
+            });
+
+            localStorage.setItem('moves-completion-history', JSON.stringify(history));
+
+            // Count completions in the last 7 days and group by business/goal
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+            let weeklyCompletions = 0;
+            const breakdown = {}; // { "Business Name": { "Goal Name": count } }
+
+            Object.values(history).forEach(entry => {
+                const dateStr = typeof entry === 'string' ? entry : entry.date;
+                const date = new Date(dateStr);
+                if (date >= oneWeekAgo) {
+                    weeklyCompletions++;
+                    // Track breakdown if we have the new format
+                    if (typeof entry === 'object' && entry.businessName) {
+                        const biz = entry.businessName;
+                        const goal = entry.goalName;
+                        if (!breakdown[biz]) breakdown[biz] = {};
+                        if (!breakdown[biz][goal]) breakdown[biz][goal] = 0;
+                        breakdown[biz][goal]++;
+                    }
+                }
+            });
+
+            return { today: completedToday, thisWeek: weeklyCompletions, breakdown };
+        }
+
+        function getCompletionStreak() {
+            const history = JSON.parse(localStorage.getItem('moves-completion-history')) || {};
+            const dateCompletions = {};
+
+            // Count completions per date
+            Object.values(history).forEach(dateStr => {
+                dateCompletions[dateStr] = (dateCompletions[dateStr] || 0) + 1;
+            });
+
+            // Calculate streak
+            const today = new Date();
+            let streak = 0;
+            let checkDate = new Date(today);
+
+            // Check if today has completions, if not start from yesterday
+            const todayStr = today.toISOString().split('T')[0];
+            if (!dateCompletions[todayStr]) {
+                checkDate.setDate(checkDate.getDate() - 1);
+            }
+
+            while (true) {
+                const dateStr = checkDate.toISOString().split('T')[0];
+                if (dateCompletions[dateStr] && dateCompletions[dateStr] > 0) {
+                    streak++;
+                    checkDate.setDate(checkDate.getDate() - 1);
+                } else {
+                    break;
+                }
+            }
+
+            return streak;
+        }
+
+        function getTotalProgress() {
+            let totalSteps = 0;
+            let doneSteps = 0;
+
+            data.businesses.forEach(b => {
+                b.goals.forEach(g => {
+                    totalSteps += g.steps.length;
+                    doneSteps += g.steps.filter(s => s.done).length;
+                });
+            });
+
+            return { total: totalSteps, done: doneSteps, percent: totalSteps > 0 ? Math.round((doneSteps / totalSteps) * 100) : 0 };
+        }
+
+        function renderSummary() {
+            // Start the coach flip animation with fresh data
+            startCoachFlip();
+        }
+        
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            const tabIndex = tab === 'tasks' ? 1 : tab === 'calendar' ? 2 : 3;
+            document.querySelector(`.tab:nth-child(${tabIndex})`).classList.add('active');
+            document.getElementById(`${tab}-view`).classList.add('active');
+            if (tab === 'calendar') renderCalendar();
+            if (tab === 'journal') renderJournal();
+        }
+        
+        function setCalView(view) {
+            calView = view;
+            document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            renderCalendar();
+        }
+        
+        function navCalendar(dir) {
+            if (calView === 'daily') calDate.setDate(calDate.getDate() + dir);
+            else if (calView === 'weekly') calDate.setDate(calDate.getDate() + (dir * 7));
+            else if (calView === 'monthly') calDate.setMonth(calDate.getMonth() + dir);
+            else if (calView === 'annual') calDate.setFullYear(calDate.getFullYear() + dir);
+            renderCalendar();
+        }
+        
+        function renderCalendar() {
+            const content = document.getElementById('calendar-content');
+            const title = document.getElementById('calendar-title');
+            const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+            const today = new Date();
+            
+            if (calView === 'monthly') {
+                title.textContent = `${months[calDate.getMonth()]} ${calDate.getFullYear()}`;
+                const firstDay = new Date(calDate.getFullYear(), calDate.getMonth(), 1);
+                const lastDay = new Date(calDate.getFullYear(), calDate.getMonth() + 1, 0);
+                const startDay = firstDay.getDay();
+                
+                let html = '<div class="calendar-grid"><div class="weekdays">';
+                days.forEach(d => html += `<div class="weekday">${d}</div>`);
+                html += '</div><div class="days">';
+                
+                const prevMonth = new Date(calDate.getFullYear(), calDate.getMonth(), 0);
+                for (let i = startDay - 1; i >= 0; i--) {
+                    html += `<div class="day other-month"><span class="day-num">${prevMonth.getDate() - i}</span></div>`;
+                }
+                
+                for (let d = 1; d <= lastDay.getDate(); d++) {
+                    const dateStr = `${calDate.getFullYear()}-${String(calDate.getMonth()+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+                    const dayEvents = data.events.filter(e => e.date === dateStr);
+                    const isToday = today.getDate() === d && today.getMonth() === calDate.getMonth() && today.getFullYear() === calDate.getFullYear();
+                    html += `<div class="day${isToday ? ' today' : ''}" onclick="selectDay('${dateStr}')">
+                        <span class="day-num">${d}</span>
+                        <div class="day-events">${dayEvents.slice(0,3).map(() => '<div class="event-dot"></div>').join('')}</div>
+                    </div>`;
+                }
+                
+                const remaining = 42 - (startDay + lastDay.getDate());
+                for (let d = 1; d <= remaining; d++) {
+                    html += `<div class="day other-month"><span class="day-num">${d}</span></div>`;
+                }
+                
+                html += '</div></div>';
+                content.innerHTML = html;
+                
+            } else if (calView === 'daily') {
+                title.textContent = calDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+                const dateStr = calDate.toISOString().split('T')[0];
+                const dayEvents = data.events.filter(e => e.date === dateStr);
+                const isToday = today.toDateString() === calDate.toDateString();
+                
+                let html = `<div class="schedule"><div class="schedule-day">
+                    <div class="schedule-day-header${isToday ? ' today' : ''}">${isToday ? 'Today' : calDate.toLocaleDateString('en-US', { weekday: 'long' })}</div>`;
+                
+                if (dayEvents.length === 0) {
+                    html += '<div class="no-events">No events scheduled</div>';
+                } else {
+                    dayEvents.forEach(e => {
+                        html += `<div class="event">
+                            <div><div class="event-title">${e.title}</div>${e.time ? `<div class="event-time">${e.time}</div>` : ''}</div>
+                            <button class="btn small danger" onclick="deleteEvent(${e.id})">×</button>
+                        </div>`;
+                    });
+                }
+                html += '</div></div>';
+                content.innerHTML = html;
+                
+            } else if (calView === 'weekly') {
+                const startOfWeek = new Date(calDate);
+                startOfWeek.setDate(calDate.getDate() - calDate.getDay());
+                const endOfWeek = new Date(startOfWeek);
+                endOfWeek.setDate(startOfWeek.getDate() + 6);
+                
+                title.textContent = `${startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+                
+                let html = '<div class="schedule">';
+                for (let i = 0; i < 7; i++) {
+                    const d = new Date(startOfWeek);
+                    d.setDate(startOfWeek.getDate() + i);
+                    const dateStr = d.toISOString().split('T')[0];
+                    const dayEvents = data.events.filter(e => e.date === dateStr);
+                    const isToday = today.toDateString() === d.toDateString();
+                    
+                    html += `<div class="schedule-day">
+                        <div class="schedule-day-header${isToday ? ' today' : ''}">${d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}${isToday ? ' (Today)' : ''}</div>`;
+                    
+                    if (dayEvents.length === 0) {
+                        html += '<div class="no-events">No events</div>';
+                    } else {
+                        dayEvents.forEach(e => {
+                            html += `<div class="event">
+                                <div><div class="event-title">${e.title}</div>${e.time ? `<div class="event-time">${e.time}</div>` : ''}</div>
+                                <button class="btn small danger" onclick="deleteEvent(${e.id})">×</button>
+                            </div>`;
+                        });
+                    }
+                    html += '</div>';
+                }
+                html += '</div>';
+                content.innerHTML = html;
+                
+            } else if (calView === 'annual') {
+                title.textContent = calDate.getFullYear();
+                let html = '<div class="annual-grid">';
+                
+                for (let m = 0; m < 12; m++) {
+                    const firstDay = new Date(calDate.getFullYear(), m, 1);
+                    const lastDay = new Date(calDate.getFullYear(), m + 1, 0);
+                    const startDay = firstDay.getDay();
+                    
+                    html += `<div class="mini-month"><div class="mini-month-title">${months[m]}</div><div class="mini-days">`;
+                    
+                    for (let i = 0; i < startDay; i++) html += '<div class="mini-day"></div>';
+                    
+                    for (let d = 1; d <= lastDay.getDate(); d++) {
+                        const dateStr = `${calDate.getFullYear()}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+                        const hasEvent = data.events.some(e => e.date === dateStr);
+                        const isToday = today.getDate() === d && today.getMonth() === m && today.getFullYear() === calDate.getFullYear();
+                        html += `<div class="mini-day${hasEvent ? ' has-event' : ''}${isToday ? ' today' : ''}">${d}</div>`;
+                    }
+                    
+                    html += '</div></div>';
+                }
+                html += '</div>';
+                content.innerHTML = html;
+            }
+        }
+        
+        function selectDay(dateStr) {
+            selectedDate = new Date(dateStr + 'T12:00:00');
+            calDate = new Date(dateStr + 'T12:00:00');
+            calView = 'daily';
+            document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+            document.querySelector('.view-toggle button:first-child').classList.add('active');
+            renderCalendar();
+        }
+        
+        function deleteEvent(id) {
+            if (confirm('Delete this event?')) {
+                data.events = data.events.filter(e => e.id !== id);
+                save();
+                renderCalendar();
+            }
+        }
+        
+        function openAdd() {
+            if (currentTab === 'tasks') {
+                openAddBusiness();
+            } else {
+                openAddEvent();
+            }
+        }
+        
+        function openAddEvent() {
+            const dateStr = calDate.toISOString().split('T')[0];
+            document.getElementById('modal-inner').innerHTML = `
+                <h2>Add Event</h2>
+                <label>Title</label>
+                <input type="text" id="event-title" placeholder="Event title...">
+                <label>Date</label>
+                <input type="date" id="event-date" value="${dateStr}">
+                <label>Time (optional)</label>
+                <input type="time" id="event-time">
+                <div class="actions">
+                    <button class="btn ghost" onclick="closeModal()">Cancel</button>
+                    <button class="btn" onclick="saveEvent()">Save</button>
+                </div>
+            `;
+            document.getElementById('modal').classList.add('open');
+            document.getElementById('event-title').focus();
+        }
+        
+        function saveEvent() {
+            const title = document.getElementById('event-title').value.trim();
+            const date = document.getElementById('event-date').value;
+            const time = document.getElementById('event-time').value;
+            if (!title || !date) return;
+            
+            const newId = data.events.length > 0 ? Math.max(...data.events.map(e => e.id)) + 1 : 1;
+            data.events.push({ id: newId, title, date, time });
+            save();
+            closeModal();
+            renderCalendar();
+        }
+        
+        // Task functions
+        function render() {
+            const app = document.getElementById('app');
+            if (!app) return;
+            app.innerHTML = data.businesses.map(b => {
+                const totalSteps = b.goals.reduce((sum, g) => sum + g.steps.length, 0);
+                const doneSteps = b.goals.reduce((sum, g) => sum + g.steps.filter(s => s.done).length, 0);
+                const progress = totalSteps > 0 ? Math.round((doneSteps / totalSteps) * 100) : 0;
+                
+                return `
+                    <div class="business" id="biz-${b.id}">
+                        <div class="business-header" onclick="toggleBusiness(${b.id})">
+                            <h2>${b.name}</h2>
+                            <span class="progress">${progress}%</span>
+                        </div>
+                        <div class="business-content">
+                            ${b.goals.map(g => {
+                                const gDone = g.steps.filter(s => s.done).length;
+                                const gTotal = g.steps.length;
+                                return `
+                                    <div class="goal">
+                                        <div class="goal-header">
+                                            <h3>${g.name} ${gTotal > 0 ? `(${gDone}/${gTotal})` : ''}</h3>
+                                            <div class="edit-delete">
+                                                <button class="btn small ghost" onclick="editGoal(${b.id}, ${g.id})">✎</button>
+                                                <button class="btn small danger" onclick="deleteGoal(${b.id}, ${g.id})">×</button>
+                                            </div>
+                                        </div>
+                                        ${g.steps.map(s => `
+                                            <div class="step ${s.done ? 'done' : ''}">
+                                                <input type="checkbox" ${s.done ? 'checked' : ''} onchange="toggleStep(${b.id}, ${g.id}, ${s.id})">
+                                                <span ondblclick="editStep(${b.id}, ${g.id}, ${s.id})">${s.text}</span>
+                                            </div>
+                                        `).join('')}
+                                        <div class="add-form">
+                                            <input type="text" placeholder="Add step..." id="step-input-${b.id}-${g.id}" onkeypress="if(event.key==='Enter')addStep(${b.id}, ${g.id})">
+                                            <button class="btn small" onclick="addStep(${b.id}, ${g.id})">+</button>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                            <button class="btn" onclick="openAddGoal(${b.id})">+ Add Goal</button>
+                            <button class="btn ghost" onclick="editBusiness(${b.id})">Edit</button>
+                            <button class="btn danger" onclick="deleteBusiness(${b.id})">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            renderSummary();
+        }
+
+        function toggleBusiness(id) { document.getElementById(`biz-${id}`).classList.toggle('open'); }
+        
+        function toggleStep(bizId, goalId, stepId) {
+            const biz = data.businesses.find(b => b.id === bizId);
+            const goal = biz.goals.find(g => g.id === goalId);
+            const step = goal.steps.find(s => s.id === stepId);
+            step.done = !step.done;
+            save(); render();
+        }
+        
+        function addStep(bizId, goalId) {
+            const input = document.getElementById(`step-input-${bizId}-${goalId}`);
+            if (!input.value.trim()) return;
+            const biz = data.businesses.find(b => b.id === bizId);
+            const goal = biz.goals.find(g => g.id === goalId);
+            const newId = goal.steps.length > 0 ? Math.max(...goal.steps.map(s => s.id)) + 1 : 1;
+            goal.steps.push({ id: newId, text: input.value.trim(), done: false });
+            input.value = '';
+            save(); render();
+        }
+        
+        function openAddBusiness() {
+            document.getElementById('modal-inner').innerHTML = `
+                <h2>Add Business</h2>
+                <input type="text" id="modal-input" placeholder="Enter name...">
+                <div class="actions">
+                    <button class="btn ghost" onclick="closeModal()">Cancel</button>
+                    <button class="btn" onclick="saveBusiness()">Save</button>
+                </div>
+            `;
+            document.getElementById('modal').classList.add('open');
+            document.getElementById('modal-input').focus();
+        }
+        
+        function saveBusiness() {
+            const value = document.getElementById('modal-input').value.trim();
+            if (!value) return;
+            const newId = data.businesses.length > 0 ? Math.max(...data.businesses.map(b => b.id)) + 1 : 1;
+            data.businesses.push({ id: newId, name: value, goals: [] });
+            save(); render(); closeModal();
+        }
+        
+        function openAddGoal(bizId) {
+            document.getElementById('modal-inner').innerHTML = `
+                <h2>Add Goal</h2>
+                <input type="text" id="modal-input" placeholder="Enter goal...">
+                <div class="actions">
+                    <button class="btn ghost" onclick="closeModal()">Cancel</button>
+                    <button class="btn" onclick="saveGoal(${bizId})">Save</button>
+                </div>
+            `;
+            document.getElementById('modal').classList.add('open');
+            document.getElementById('modal-input').focus();
+        }
+        
+        function saveGoal(bizId) {
+            const value = document.getElementById('modal-input').value.trim();
+            if (!value) return;
+            const biz = data.businesses.find(b => b.id === bizId);
+            const newId = biz.goals.length > 0 ? Math.max(...biz.goals.map(g => g.id)) + 1 : 1;
+            biz.goals.push({ id: newId, name: value, steps: [] });
+            save(); render(); closeModal();
+        }
+        
+        function editBusiness(id) {
+            const biz = data.businesses.find(b => b.id === id);
+            document.getElementById('modal-inner').innerHTML = `
+                <h2>Edit Business</h2>
+                <input type="text" id="modal-input" value="${biz.name}">
+                <div class="actions">
+                    <button class="btn ghost" onclick="closeModal()">Cancel</button>
+                    <button class="btn" onclick="updateBusiness(${id})">Save</button>
+                </div>
+            `;
+            document.getElementById('modal').classList.add('open');
+            document.getElementById('modal-input').focus();
+        }
+        
+        function updateBusiness(id) {
+            const value = document.getElementById('modal-input').value.trim();
+            if (!value) return;
+            const biz = data.businesses.find(b => b.id === id);
+            biz.name = value;
+            save(); render(); closeModal();
+        }
+        
+        function editGoal(bizId, goalId) {
+            const biz = data.businesses.find(b => b.id === bizId);
+            const goal = biz.goals.find(g => g.id === goalId);
+            document.getElementById('modal-inner').innerHTML = `
+                <h2>Edit Goal</h2>
+                <input type="text" id="modal-input" value="${goal.name}">
+                <div class="actions">
+                    <button class="btn ghost" onclick="closeModal()">Cancel</button>
+                    <button class="btn" onclick="updateGoal(${bizId}, ${goalId})">Save</button>
+                </div>
+            `;
+            document.getElementById('modal').classList.add('open');
+            document.getElementById('modal-input').focus();
+        }
+        
+        function updateGoal(bizId, goalId) {
+            const value = document.getElementById('modal-input').value.trim();
+            if (!value) return;
+            const biz = data.businesses.find(b => b.id === bizId);
+            const goal = biz.goals.find(g => g.id === goalId);
+            goal.name = value;
+            save(); render(); closeModal();
+        }
+        
+        function editStep(bizId, goalId, stepId) {
+            const biz = data.businesses.find(b => b.id === bizId);
+            const goal = biz.goals.find(g => g.id === goalId);
+            const step = goal.steps.find(s => s.id === stepId);
+            const newText = prompt('Edit step:', step.text);
+            if (newText && newText.trim()) {
+                step.text = newText.trim();
+                save(); render();
+            }
+        }
+        
+        function deleteBusiness(id) {
+            if (confirm('Delete this business and all its goals?')) {
+                data.businesses = data.businesses.filter(b => b.id !== id);
+                save(); render();
+            }
+        }
+        
+        function deleteGoal(bizId, goalId) {
+            if (confirm('Delete this goal and all its steps?')) {
+                const biz = data.businesses.find(b => b.id === bizId);
+                biz.goals = biz.goals.filter(g => g.id !== goalId);
+                save(); render();
+            }
+        }
+        
+        function closeModal() { document.getElementById('modal').classList.remove('open'); }
+        
+        document.getElementById('modal').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const saveBtn = document.querySelector('.modal .btn:not(.ghost)');
+                if (saveBtn) saveBtn.click();
+            }
+        });
+
+        // Daily Affirmation System
+        const affirmations = [
+            // Millionaire/Boss Mindset
+            "I am a money magnet. Wealth flows to me effortlessly.",
+            "I think like a CEO. I move like a boss.",
+            "My ideas are worth millions. My execution is priceless.",
+            "I don't chase. I attract.",
+            "Winners don't wait. Winners execute.",
+            "I am building an empire, one move at a time.",
+            "Abundance is my birthright. Success is my reality.",
+            "I invest in myself because I am my greatest asset.",
+            "Every decision I make multiplies my wealth.",
+            "I am the architect of my own fortune.",
+            "Money works for me while I sleep. That's boss thinking.",
+            "I turn obstacles into opportunities. That's the millionaire mindset.",
+            "My network is my net worth. I build with kings.",
+            "I don't compete. I dominate.",
+            "Scarcity is a mindset. I operate in abundance.",
+            "I am the standard. Others rise to meet it.",
+            "My vision is clear. My moves are calculated. My success is inevitable.",
+            "I create value and wealth follows.",
+            "Fear is temporary. Regret is forever. I choose action.",
+            "I am not lucky. I am prepared, focused, and relentless.",
+            "My time is valuable. I invest it wisely.",
+            "I don't ask for permission to be great. I just am.",
+            "Every day is a new opportunity to level up.",
+            "I think big, act bold, and win always.",
+            "My potential is unlimited. My grind is unmatched.",
+            "I build generational wealth starting today.",
+            "I am the main character in my success story.",
+            "Comfort zones are for the average. I am exceptional.",
+            "I see what others don't. I do what others won't.",
+            "My mindset is worth more than any bank account. But both are growing.",
+            "I am not playing the game. I am changing it.",
+            "Success is not an option. It's the only destination.",
+            "I am patient with results but relentless with my effort.",
+            "Ordinary people wish. Bosses work. I am a boss.",
+            "My legacy is being written with every move I make.",
+            // Higher Being / Philosopher-King Affirmations
+            "You're not building a business. You're building a legacy that outlives you.",
+            "Think in decades. Act in days.",
+            "Your children's children will inherit the systems you build today.",
+            "Money is a tool. Impact is the mission. Wisdom is the reward.",
+            "You're not competing with others. You're competing with who you were yesterday.",
+            "The obstacle is the way. Every setback is training.",
+            "Abundance isn't about having. It's about knowing you can create.",
+            "What would the wisest version of you do right now?",
+            "Your thoughts become your reality. Guard them.",
+            "Mastery requires boredom. Embrace the reps.",
+            "You're not chasing success. You're becoming the person success chases.",
+            "The universe rewards those who act despite fear.",
+            "Your potential is infinite. Your time is not. Choose wisely.",
+            "Discipline is freedom. Chaos is prison.",
+            "You are the ancestor your descendants will speak of.",
+            "Small minds discuss people. Great minds discuss ideas. Higher minds create realities.",
+            "Every decision either builds your empire or delays it.",
+            "The masses react. The elite anticipate. The transcendent create.",
+            "Your energy is your currency. Invest it wisely.",
+            "You came here to do something that's never been done. Act like it."
+        ];
+
+        function getDailyAffirmation() {
+            const today = new Date();
+            // Create a unique number based on year, month, and day
+            const dateNumber = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+            // Use the date to consistently select an affirmation
+            const index = dateNumber % affirmations.length;
+            return affirmations[index];
+        }
+
+        // Set the daily affirmation on page load
+        document.getElementById('daily-affirmation').textContent = getDailyAffirmation();
+
+        // ==================== JOURNAL SECTION ====================
+        let journalDate = new Date();
+        let journalData = JSON.parse(localStorage.getItem('moves-journal')) || {};
+
+        function navJournalDate(days) {
+            journalDate.setDate(journalDate.getDate() + days);
+            renderJournal();
+        }
+
+        function goToToday() {
+            journalDate = new Date();
+            renderJournal();
+        }
+
+        function formatJournalDate(date) {
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+
+            const dateStr = date.toDateString();
+
+            if (dateStr === today.toDateString()) return 'Today';
+            if (dateStr === yesterday.toDateString()) return 'Yesterday';
+
+            return date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+        }
+
+        function getDateKey(date) {
+            return date.toISOString().split('T')[0];
+        }
+
+        function getCompletionsForDate(date) {
+            const dateKey = getDateKey(date);
+            const history = JSON.parse(localStorage.getItem('moves-completion-history')) || {};
+
+            const completions = [];
+            const projects = new Set();
+
+            Object.entries(history).forEach(([key, entry]) => {
+                const entryDate = typeof entry === 'string' ? entry : entry.date;
+                if (entryDate === dateKey) {
+                    completions.push(entry);
+                    if (typeof entry === 'object' && entry.businessName) {
+                        projects.add(entry.businessName);
+                    }
+                }
+            });
+
+            return { completions, projects: Array.from(projects) };
+        }
+
+        function getStreakForDate(date) {
+            const history = JSON.parse(localStorage.getItem('moves-completion-history')) || {};
+            const dateCompletions = {};
+
+            Object.values(history).forEach(entry => {
+                const dateStr = typeof entry === 'string' ? entry : entry.date;
+                dateCompletions[dateStr] = (dateCompletions[dateStr] || 0) + 1;
+            });
+
+            const checkDate = new Date(date);
+            let streak = 0;
+
+            // Go backwards from the given date
+            while (true) {
+                const dateStr = getDateKey(checkDate);
+                if (dateCompletions[dateStr] && dateCompletions[dateStr] > 0) {
+                    streak++;
+                    checkDate.setDate(checkDate.getDate() - 1);
+                } else {
+                    break;
+                }
+            }
+
+            return streak;
+        }
+
+        function renderJournal() {
+            const dateKey = getDateKey(journalDate);
+            const isToday = dateKey === getDateKey(new Date());
+            const isFuture = journalDate > new Date();
+
+            // Update header
+            const dateDisplay = document.getElementById('journal-date-display');
+            const dateSubtitle = document.getElementById('journal-date-subtitle');
+            if (dateDisplay) dateDisplay.textContent = formatJournalDate(journalDate);
+            if (dateSubtitle) dateSubtitle.textContent = isToday ? 'Reflect on your progress' : isFuture ? 'Plan ahead' : 'View past entry';
+
+            // Get completions for this date
+            const { completions, projects } = getCompletionsForDate(journalDate);
+
+            // Update summary stats
+            const statCompleted = document.getElementById('stat-completed');
+            const statStreak = document.getElementById('stat-streak');
+            const statProjects = document.getElementById('stat-projects');
+
+            if (statCompleted) statCompleted.textContent = completions.length;
+
+            const streak = getStreakForDate(journalDate);
+            if (statStreak) {
+                statStreak.textContent = streak;
+                statStreak.className = streak >= 3 ? 'stat-value streak-hot' : 'stat-value';
+            }
+
+            if (statProjects) statProjects.textContent = projects.length;
+
+            // Update project chips
+            const chipsContainer = document.getElementById('projects-chips');
+            if (chipsContainer) {
+                if (projects.length > 0) {
+                    chipsContainer.innerHTML = projects.map(p => `<span class="project-chip">${p}</span>`).join('');
+                } else {
+                    chipsContainer.innerHTML = '<div class="no-completions">No tasks completed on this day</div>';
+                }
+            }
+
+            // Handle textarea visibility and content
+            const textarea = document.getElementById('journal-textarea');
+            const saveBtn = document.querySelector('.journal-actions .btn');
+            const pastEntrySection = document.getElementById('past-entry-section');
+            const pastEntryContent = document.getElementById('past-entry-content');
+            const promptsSection = document.querySelector('.journal-prompts');
+
+            const entry = journalData[dateKey];
+
+            if (isFuture) {
+                // Future date - hide textarea
+                if (textarea) textarea.style.display = 'none';
+                if (saveBtn) saveBtn.style.display = 'none';
+                if (pastEntrySection) pastEntrySection.style.display = 'none';
+                if (promptsSection) promptsSection.style.display = 'none';
+            } else if (isToday) {
+                // Today - show textarea for editing
+                if (textarea) {
+                    textarea.style.display = 'block';
+                    textarea.value = entry ? entry.entry : '';
+                }
+                if (saveBtn) saveBtn.style.display = 'block';
+                if (promptsSection) promptsSection.style.display = 'block';
+                if (pastEntrySection) pastEntrySection.style.display = 'none';
+            } else {
+                // Past date - show readonly view
+                if (textarea) textarea.style.display = 'none';
+                if (saveBtn) saveBtn.style.display = 'none';
+                if (promptsSection) promptsSection.style.display = 'none';
+
+                if (pastEntrySection) {
+                    pastEntrySection.style.display = 'block';
+                    if (pastEntryContent) {
+                        if (entry && entry.entry) {
+                            pastEntryContent.textContent = entry.entry;
+                        } else {
+                            pastEntryContent.innerHTML = '<div class="past-entry-empty">No journal entry for this day</div>';
+                        }
+                    }
+                }
+            }
+
+            // Render history calendar
+            renderHistoryCalendar();
+
+            // Render productivity patterns
+            renderProductivityPatterns();
+        }
+
+        function saveJournalEntry() {
+            const dateKey = getDateKey(journalDate);
+            const textarea = document.getElementById('journal-textarea');
+            const entry = textarea ? textarea.value.trim() : '';
+
+            if (!journalData[dateKey]) {
+                journalData[dateKey] = {};
+            }
+
+            journalData[dateKey].entry = entry;
+            journalData[dateKey].timestamp = new Date().toISOString();
+
+            // Generate auto-summary
+            const { completions, projects } = getCompletionsForDate(journalDate);
+            journalData[dateKey].autoSummary = {
+                completed: completions.length,
+                projects: projects,
+                streak: getStreakForDate(journalDate),
+                date: dateKey
+            };
+
+            localStorage.setItem('moves-journal', JSON.stringify(journalData));
+
+            // Show save confirmation
+            const saveStatus = document.getElementById('save-status');
+            if (saveStatus) {
+                saveStatus.classList.add('visible');
+                setTimeout(() => saveStatus.classList.remove('visible'), 2000);
+            }
+
+            // Refresh calendar to show entry indicator
+            renderHistoryCalendar();
+        }
+
+        function renderHistoryCalendar() {
+            const container = document.getElementById('history-calendar');
+            if (!container) return;
+
+            const today = new Date();
+            const currentMonth = journalDate.getMonth();
+            const currentYear = journalDate.getFullYear();
+
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const startDayOfWeek = firstDay.getDay();
+
+            const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+            let html = '';
+
+            // Header
+            days.forEach(d => {
+                html += `<div class="history-calendar-header">${d}</div>`;
+            });
+
+            // Previous month padding
+            const prevMonth = new Date(currentYear, currentMonth, 0);
+            for (let i = startDayOfWeek - 1; i >= 0; i--) {
+                html += `<div class="history-day other-month">${prevMonth.getDate() - i}</div>`;
+            }
+
+            // Current month days
+            for (let d = 1; d <= lastDay.getDate(); d++) {
+                const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                const isToday = today.getDate() === d && today.getMonth() === currentMonth && today.getFullYear() === currentYear;
+                const isSelected = journalDate.getDate() === d && journalDate.getMonth() === currentMonth && journalDate.getFullYear() === currentYear;
+                const hasEntry = journalData[dateStr] && journalData[dateStr].entry;
+                const hasSummary = journalData[dateStr] && journalData[dateStr].autoSummary;
+
+                html += `<div class="history-day${isToday ? ' today' : ''}${isSelected ? ' selected' : ''}${hasEntry ? ' has-entry' : ''}${hasSummary ? ' has-summary' : ''}" onclick="selectJournalDate('${dateStr}')">${d}</div>`;
+            }
+
+            // Next month padding
+            const remaining = (7 - ((startDayOfWeek + lastDay.getDate()) % 7)) % 7;
+            for (let d = 1; d <= remaining; d++) {
+                html += `<div class="history-day other-month">${d}</div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function selectJournalDate(dateStr) {
+            journalDate = new Date(dateStr + 'T12:00:00');
+            renderJournal();
+        }
+
+        function renderProductivityPatterns() {
+            const chart = document.getElementById('pattern-chart');
+            const insight = document.getElementById('pattern-insight');
+            if (!chart || !insight) return;
+
+            const history = JSON.parse(localStorage.getItem('moves-completion-history')) || {};
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const dayCounts = [0, 0, 0, 0, 0, 0, 0];
+
+            // Count completions per day of week
+            Object.values(history).forEach(entry => {
+                const dateStr = typeof entry === 'string' ? entry : entry.date;
+                const date = new Date(dateStr);
+                const dayOfWeek = date.getDay();
+                dayCounts[dayOfWeek]++;
+            });
+
+            // Calculate max for scaling
+            const maxCount = Math.max(...dayCounts, 1);
+
+            // Find best day
+            let bestDayIndex = 0;
+            let bestDayCount = 0;
+            dayCounts.forEach((count, index) => {
+                if (count > bestDayCount) {
+                    bestDayCount = count;
+                    bestDayIndex = index;
+                }
+            });
+
+            // Render bars
+            let html = '';
+
+            dayNames.forEach((name, index) => {
+                const height = (dayCounts[index] / maxCount) * 100;
+                const isBest = index === bestDayIndex && dayCounts[index] > 0;
+
+                html += `
+                    <div class="pattern-bar-container">
+                        <div class="pattern-value">${dayCounts[index]}</div>
+                        <div class="pattern-bar${isBest ? ' best' : ''}" style="height: ${Math.max(height, 4)}%"></div>
+                        <div class="pattern-label">${name}</div>
+                    </div>
+                `;
+            });
+
+            chart.innerHTML = html;
+
+            // Update insight
+            if (dayCounts.reduce((a, b) => a + b, 0) === 0) {
+                insight.innerHTML = '<p>Complete some tasks to see your productivity patterns emerge!</p>';
+            } else {
+                const bestDay = dayNames[bestDayIndex];
+                const avgCompletions = (dayCounts.reduce((a, b) => a + b, 0) / 7).toFixed(1);
+                insight.innerHTML = `<p>You\'re most productive on <strong>${bestDay}s</strong> with ${bestDayCount} completions. Your average is ${avgCompletions} completions per day.</p>`;
+            }
+        }
+
+        // Auto-save journal entry on textarea blur
+        document.addEventListener('DOMContentLoaded', function() {
+            const textarea = document.getElementById('journal-textarea');
+            if (textarea) {
+                textarea.addEventListener('blur', function() {
+                    if (getDateKey(journalDate) === getDateKey(new Date())) {
+                        saveJournalEntry();
+                    }
+                });
+            }
+        });
+
+        // Override switchTab to handle journal
+        window.switchTab = function(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+
+            const tabIndex = tab === 'tasks' ? 1 : tab === 'calendar' ? 2 : 3;
+            document.querySelector(`.tab:nth-child(${tabIndex})`).classList.add('active');
+            document.getElementById(`${tab}-view`).classList.add('active');
+
+            if (tab === 'calendar') renderCalendar();
+            if (tab === 'journal') renderJournal();
+        };
+
+        // ==================== END JOURNAL SECTION ====================
+
+        render();
+        renderSummary();
+        renderFocus();
+    </script>
+</body>
+</html>

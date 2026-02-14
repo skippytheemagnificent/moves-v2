@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
+    <defs>
+        <!-- Text gradient -->
+        <linearGradient id="textGoldX" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#B8942B"/>
+            <stop offset="25%" style="stop-color:#E8D48A"/>
+            <stop offset="50%" style="stop-color:#C9A227"/>
+            <stop offset="75%" style="stop-color:#E8D48A"/>
+            <stop offset="100%" style="stop-color:#B8942B"/>
+        </linearGradient>
+        
+        <!-- Streak gradient -->
+        <linearGradient id="streakGoldX" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#C9A227" stop-opacity="0"/>
+            <stop offset="50%" style="stop-color:#E8D48A"/>
+            <stop offset="100%" style="stop-color:#C9A227"/>
+        </linearGradient>
+        
+        <filter id="glowX">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        
+        <radialGradient id="bgX" cx="50%" cy="50%" r="70%">
+            <stop offset="0%" style="stop-color:#151515"/>
+            <stop offset="100%" style="stop-color:#000000"/>
+        </radialGradient>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="400" height="200" fill="#0a0a0a"/>
+    <rect width="400" height="200" fill="url(#bgX)"/>
+    
+    <!-- Run streaks before MOVES -->
+    <g filter="url(#glowX)">
+        <rect x="30" y="68" width="50" height="5" rx="2" fill="url(#streakGoldX)" opacity="0.5"/>
+        <rect x="20" y="82" width="70" height="6" rx="3" fill="url(#streakGoldX)" opacity="0.8"/>
+        <rect x="30" y="97" width="50" height="5" rx="2" fill="url(#streakGoldX)" opacity="0.5"/>
+    </g>
+    
+    <!-- MOVES text -->
+    <text x="230" y="105" 
+          font-family="Didot, Bodoni MT, 'Times New Roman', Georgia, serif" 
+          font-size="72" 
+          font-weight="700"
+          letter-spacing="6"
+          text-anchor="middle"
+          fill="url(#textGoldX)"
+          filter="url(#glowX)">MOVES</text>
+    
+    <!-- Tagline -->
+    <text x="200" y="150" 
+          font-family="Didot, Bodoni MT, Georgia, serif" 
+          font-size="14" 
+          font-weight="300"
+          font-style="italic"
+          letter-spacing="3"
+          text-anchor="middle"
+          fill="#E8E8E8">Run Your Life Like a Boss</text>
+</svg>

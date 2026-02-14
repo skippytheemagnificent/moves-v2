@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <defs>
+        <!-- Neon pink glow -->
+        <filter id="neonPink">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feFlood flood-color="#ff006e" result="color"/>
+            <feComposite in="color" in2="blur" operator="in" result="shadow"/>
+            <feMerge>
+                <feMergeNode in="shadow"/>
+                <feMergeNode in="shadow"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        
+        <!-- Neon cyan glow -->
+        <filter id="neonCyan">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feFlood flood-color="#00f5ff" result="color"/>
+            <feComposite in="color" in2="blur" operator="in" result="shadow"/>
+            <feMerge>
+                <feMergeNode in="shadow"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+    
+    <!-- Pure black background -->
+    <rect width="200" height="200" fill="#000"/>
+    
+    <!-- Outer ring - cyber tech -->
+    <circle cx="100" cy="100" r="85" fill="none" stroke="#1a1a2e" stroke-width="12"/>
+    
+    <!-- Broken ring accent - asymmetric luxury -->
+    <path d="M100 15 A85 85 0 0 1 185 100" fill="none" stroke="#ff006e" stroke-width="3" filter="url(#neonPink)"/>
+    
+    <!-- Inner geometric M - avant garde -->
+    <g filter="url(#neonCyan)">
+        <path d="M55 140 L55 75 L100 120 L100 60" stroke="#00f5ff" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M100 60 L100 120 L145 75 L145 140" stroke="#00f5ff" stroke-width="5" fill="none" stroke-linecap="round"/>
+    </g>
+    
+    <!-- Accent dot - like a record or status light -->
+    <circle cx="100" cy="60" r="6" fill="#ff006e" filter="url(#neonPink)"/>
+    
+    <!-- Subtle grid lines - tech aesthetic -->
+    <line x1="30" y1="100" x2="45" y2="100" stroke="#333" stroke-width="1"/>
+    <line x1="155" y1="100" x2="170" y2="100" stroke="#333" stroke-width="1"/>
+    <line x1="100" y1="30" x2="100" y2="45" stroke="#333" stroke-width="1"/>
+    <line x1="100" y1="155" x2="100" y2="170" stroke="#333" stroke-width="1"/>
+</svg>

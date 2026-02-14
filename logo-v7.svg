@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 100">
+    <defs>
+        <linearGradient id="goldLux" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#BF953F"/>
+            <stop offset="25%" style="stop-color:#FCF6BA"/>
+            <stop offset="50%" style="stop-color:#B38728"/>
+            <stop offset="75%" style="stop-color:#FBF5B7"/>
+            <stop offset="100%" style="stop-color:#AA771C"/>
+        </linearGradient>
+        <filter id="luxShadow">
+            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+        </filter>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="320" height="100" fill="#0a0a0a"/>
+    
+    <!-- Motion lines - elegant speed streaks -->
+    <line x1="15" y1="35" x2="45" y2="35" stroke="url(#goldLux)" stroke-width="2" opacity="0.4"/>
+    <line x1="10" y1="50" x2="55" y2="50" stroke="url(#goldLux)" stroke-width="2.5" opacity="0.6"/>
+    <line x1="15" y1="65" x2="45" y2="65" stroke="url(#goldLux)" stroke-width="2" opacity="0.4"/>
+    
+    <!-- Forward arrow/chevron - movement indicator -->
+    <path d="M50 50 L70 35 L70 42 L85 50 L70 58 L70 65 Z" fill="url(#goldLux)" filter="url(#luxShadow)"/>
+    
+    <!-- MOVES text - luxury typography -->
+    <text x="105" y="62" 
+          font-family="Didot, Bodoni MT, Georgia, serif" 
+          font-size="42" 
+          font-weight="400"
+          letter-spacing="8"
+          fill="url(#goldLux)"
+          filter="url(#luxShadow)">MOVES</text>
+    
+    <!-- Subtle underline accent -->
+    <line x1="105" y1="72" x2="305" y2="72" stroke="url(#goldLux)" stroke-width="1" opacity="0.5"/>
+</svg>

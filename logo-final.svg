@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240">
+    <defs>
+        <linearGradient id="goldFinal" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#BF953F"/>
+            <stop offset="25%" style="stop-color:#FCF6BA"/>
+            <stop offset="50%" style="stop-color:#D4AF37"/>
+            <stop offset="75%" style="stop-color:#FBF5B7"/>
+            <stop offset="100%" style="stop-color:#AA771C"/>
+        </linearGradient>
+        <filter id="crownGlow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        <filter id="subtleShadow">
+            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.4"/>
+        </filter>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="200" height="240" fill="#0a0a0a"/>
+    
+    <!-- M as Crown -->
+    <g filter="url(#crownGlow)">
+        <!-- Crown M shape -->
+        <path d="M30 120 
+                 L30 55 
+                 L55 85 
+                 L100 35 
+                 L145 85 
+                 L170 55 
+                 L170 120
+                 L150 120
+                 L150 80
+                 L145 85
+                 L100 55
+                 L55 85
+                 L50 80
+                 L50 120
+                 Z" 
+              fill="url(#goldFinal)"/>
+        
+        <!-- Crown jewels/dots at peaks -->
+        <circle cx="30" cy="50" r="6" fill="url(#goldFinal)"/>
+        <circle cx="100" cy="28" r="8" fill="url(#goldFinal)"/>
+        <circle cx="170" cy="50" r="6" fill="url(#goldFinal)"/>
+    </g>
+    
+    <!-- MOVES text - luxury gold -->
+    <text x="100" y="165" 
+          font-family="Didot, Bodoni MT, Georgia, serif" 
+          font-size="36" 
+          font-weight="400"
+          letter-spacing="8"
+          text-anchor="middle"
+          fill="url(#goldFinal)"
+          filter="url(#subtleShadow)">MOVES</text>
+    
+    <!-- Tagline - white -->
+    <text x="100" y="195" 
+          font-family="Helvetica Neue, Arial, sans-serif" 
+          font-size="9" 
+          font-weight="300"
+          letter-spacing="2"
+          text-anchor="middle"
+          fill="#FFFFFF">RUN YOUR LIFE LIKE A BOSS</text>
+    
+    <!-- Subtle accent line -->
+    <line x1="50" y1="210" x2="150" y2="210" stroke="url(#goldFinal)" stroke-width="1" opacity="0.4"/>
+</svg>

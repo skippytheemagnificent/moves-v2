@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 320">
+    <defs>
+        <!-- Rich 3D gold gradient -->
+        <linearGradient id="gold3d" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#8B6914"/>
+            <stop offset="20%" style="stop-color:#C9A227"/>
+            <stop offset="40%" style="stop-color:#DFBD69"/>
+            <stop offset="50%" style="stop-color:#F4E4BA"/>
+            <stop offset="60%" style="stop-color:#DFBD69"/>
+            <stop offset="80%" style="stop-color:#C9A227"/>
+            <stop offset="100%" style="stop-color:#8B6914"/>
+        </linearGradient>
+        
+        <!-- Crown highlight -->
+        <linearGradient id="goldHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#F4E4BA"/>
+            <stop offset="50%" style="stop-color:#C9A227"/>
+            <stop offset="100%" style="stop-color:#7A5C12"/>
+        </linearGradient>
+        
+        <!-- Text gradient -->
+        <linearGradient id="goldText" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#B8942B"/>
+            <stop offset="25%" style="stop-color:#E8D48A"/>
+            <stop offset="50%" style="stop-color:#C9A227"/>
+            <stop offset="75%" style="stop-color:#E8D48A"/>
+            <stop offset="100%" style="stop-color:#B8942B"/>
+        </linearGradient>
+        
+        <filter id="crownShadow">
+            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+        </filter>
+        
+        <filter id="textGlow">
+            <feGaussianBlur stdDeviation="1" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+    
+    <!-- Background with subtle vignette -->
+    <rect width="300" height="320" fill="#0a0a0a"/>
+    <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+        <stop offset="0%" style="stop-color:#151515"/>
+        <stop offset="100%" style="stop-color:#000000"/>
+    </radialGradient>
+    <rect width="300" height="320" fill="url(#vignette)"/>
+    
+    <!-- Crown with 3 sharp peaks -->
+    <g filter="url(#crownShadow)" transform="translate(150, 95)">
+        <!-- Crown base arc -->
+        <path d="M-70 40 Q-70 55 -50 55 L50 55 Q70 55 70 40" 
+              fill="url(#gold3d)" stroke="url(#goldHighlight)" stroke-width="1"/>
+        
+        <!-- Left peak -->
+        <path d="M-60 40 L-45 -25 L-30 20 Z" fill="url(#goldHighlight)"/>
+        
+        <!-- Center peak (tallest) -->
+        <path d="M-20 25 L0 -55 L20 25 Z" fill="url(#goldHighlight)"/>
+        
+        <!-- Right peak -->
+        <path d="M30 20 L45 -25 L60 40 Z" fill="url(#goldHighlight)"/>
+        
+        <!-- Crown band -->
+        <ellipse cx="0" cy="45" rx="65" ry="12" fill="url(#gold3d)"/>
+        
+        <!-- Jewel accents -->
+        <circle cx="-45" cy="-15" r="4" fill="#F4E4BA"/>
+        <circle cx="0" cy="-45" r="5" fill="#F4E4BA"/>
+        <circle cx="45" cy="-15" r="4" fill="#F4E4BA"/>
+    </g>
+    
+    <!-- MOVES text - bold serif -->
+    <text x="150" y="220" 
+          font-family="Didot, Bodoni MT, 'Times New Roman', Georgia, serif" 
+          font-size="52" 
+          font-weight="700"
+          letter-spacing="6"
+          text-anchor="middle"
+          fill="url(#goldText)"
+          filter="url(#textGlow)">MOVES</text>
+    
+    <!-- Tagline - white, elegant -->
+    <text x="150" y="255" 
+          font-family="Didot, Bodoni MT, Georgia, serif" 
+          font-size="12" 
+          font-weight="300"
+          font-style="italic"
+          letter-spacing="3"
+          text-anchor="middle"
+          fill="#E8E8E8">Run Your Life Like a Boss</text>
+</svg>

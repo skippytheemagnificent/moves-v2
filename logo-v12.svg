@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 120">
+    <defs>
+        <linearGradient id="gold12" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#BF953F"/>
+            <stop offset="25%" style="stop-color:#FCF6BA"/>
+            <stop offset="50%" style="stop-color:#D4AF37"/>
+            <stop offset="75%" style="stop-color:#FBF5B7"/>
+            <stop offset="100%" style="stop-color:#AA771C"/>
+        </linearGradient>
+        <linearGradient id="bar12" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" style="stop-color:#ff006e"/>
+            <stop offset="100%" style="stop-color:#00f5ff"/>
+        </linearGradient>
+        <filter id="shadow12"><feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#000" flood-opacity="0.6"/></filter>
+        <filter id="glow12"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="380" height="120" fill="#0a0a0a"/>
+    
+    <!-- Rising bars leading to trophy -->
+    <rect x="12" y="70" width="10" height="23" fill="url(#bar12)"/>
+    <rect x="26" y="55" width="10" height="38" fill="url(#bar12)"/>
+    <rect x="40" y="40" width="10" height="53" fill="url(#bar12)"/>
+    
+    <!-- Trophy at the peak -->
+    <g transform="translate(52, 8)" filter="url(#glow12)">
+        <!-- Trophy cup -->
+        <path d="M8 25 L8 15 Q8 5 18 5 L22 5 Q32 5 32 15 L32 25 Q32 35 20 38 Q8 35 8 25Z" fill="url(#gold12)"/>
+        <!-- Trophy handles -->
+        <path d="M8 15 Q2 15 2 22 Q2 28 8 28" stroke="url(#gold12)" stroke-width="3" fill="none"/>
+        <path d="M32 15 Q38 15 38 22 Q38 28 32 28" stroke="url(#gold12)" stroke-width="3" fill="none"/>
+        <!-- Trophy base -->
+        <rect x="15" y="38" width="10" height="5" fill="url(#gold12)"/>
+        <rect x="12" y="43" width="16" height="4" fill="url(#gold12)"/>
+    </g>
+    
+    <!-- MOVES text -->
+    <text x="105" y="82" 
+          font-family="Impact, Haettenschweiler, Arial Black, sans-serif" 
+          font-size="68" 
+          font-weight="900"
+          letter-spacing="-1"
+          fill="url(#gold12)"
+          filter="url(#shadow12)">MOVES</text>
+    
+    <!-- Accent line -->
+    <rect x="105" y="92" width="260" height="3" fill="url(#bar12)"/>
+    
+    <!-- Tagline -->
+    <text x="235" y="110" font-family="Helvetica Neue, Arial, sans-serif" font-size="8" letter-spacing="3" text-anchor="middle" fill="#666">RUN UR LIFE LIKE A BOSS</text>
+</svg>

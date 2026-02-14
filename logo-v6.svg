@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <defs>
+        <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#00f5ff"/>
+            <stop offset="100%" style="stop-color:#0066ff"/>
+        </linearGradient>
+        <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#ff006e"/>
+            <stop offset="100%" style="stop-color:#ff4d94"/>
+        </linearGradient>
+        <filter id="softGlow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="200" height="200" fill="#0a0a0a"/>
+    
+    <!-- Connection lines - projects connected to central hub -->
+    <line x1="100" y1="100" x2="50" y2="50" stroke="#1a1a2e" stroke-width="3"/>
+    <line x1="100" y1="100" x2="150" y2="50" stroke="#1a1a2e" stroke-width="3"/>
+    <line x1="100" y1="100" x2="50" y2="150" stroke="#1a1a2e" stroke-width="3"/>
+    <line x1="100" y1="100" x2="150" y2="150" stroke="#1a1a2e" stroke-width="3"/>
+    <line x1="100" y1="100" x2="100" y2="35" stroke="#1a1a2e" stroke-width="3"/>
+    
+    <!-- Animated pulse rings around center (static version) -->
+    <circle cx="100" cy="100" r="25" fill="none" stroke="#00f5ff" stroke-width="1" opacity="0.3"/>
+    <circle cx="100" cy="100" r="40" fill="none" stroke="#00f5ff" stroke-width="1" opacity="0.2"/>
+    
+    <!-- Central hub - the assistant/brain -->
+    <circle cx="100" cy="100" r="18" fill="url(#nodeGrad)" filter="url(#softGlow)"/>
+    <circle cx="100" cy="100" r="8" fill="#0a0a0a"/>
+    <circle cx="100" cy="100" r="4" fill="#00f5ff"/>
+    
+    <!-- Project nodes - different sizes = priorities -->
+    <!-- Top - main goal -->
+    <circle cx="100" cy="35" r="14" fill="url(#accentGrad)" filter="url(#softGlow)"/>
+    <path d="M95 35 L99 39 L107 31" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+    
+    <!-- Top left -->
+    <circle cx="50" cy="50" r="10" fill="#1a1a2e" stroke="#00f5ff" stroke-width="2"/>
+    
+    <!-- Top right -->
+    <circle cx="150" cy="50" r="10" fill="#1a1a2e" stroke="#00f5ff" stroke-width="2"/>
+    
+    <!-- Bottom left -->
+    <circle cx="50" cy="150" r="10" fill="#1a1a2e" stroke="#ff006e" stroke-width="2"/>
+    
+    <!-- Bottom right -->  
+    <circle cx="150" cy="150" r="10" fill="#1a1a2e" stroke="#ff006e" stroke-width="2"/>
+    
+    <!-- Small label accent -->
+    <text x="100" y="185" font-family="Helvetica, Arial, sans-serif" font-size="10" 
+          letter-spacing="3" text-anchor="middle" fill="#444">PLANNER</text>
+</svg>

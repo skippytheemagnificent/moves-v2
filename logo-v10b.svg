@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120">
+    <defs>
+        <linearGradient id="goldB" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#BF953F"/>
+            <stop offset="25%" style="stop-color:#FCF6BA"/>
+            <stop offset="50%" style="stop-color:#D4AF37"/>
+            <stop offset="75%" style="stop-color:#FBF5B7"/>
+            <stop offset="100%" style="stop-color:#AA771C"/>
+        </linearGradient>
+        <linearGradient id="barGradB" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" style="stop-color:#D4AF37"/>
+            <stop offset="100%" style="stop-color:#FCF6BA"/>
+        </linearGradient>
+        <filter id="shadowB"><feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#000" flood-opacity="0.6"/></filter>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="360" height="120" fill="#0a0a0a"/>
+    
+    <!-- 6 thin bars - equalizer style, gold gradient to match text -->
+    <rect x="12" y="30" width="6" height="60" fill="#1a1a2e"/>
+    <rect x="12" y="65" width="6" height="25" fill="url(#barGradB)"/>
+    
+    <rect x="22" y="30" width="6" height="60" fill="#1a1a2e"/>
+    <rect x="22" y="50" width="6" height="40" fill="url(#barGradB)"/>
+    
+    <rect x="32" y="30" width="6" height="60" fill="#1a1a2e"/>
+    <rect x="32" y="40" width="6" height="50" fill="url(#barGradB)"/>
+    
+    <rect x="42" y="30" width="6" height="60" fill="#1a1a2e"/>
+    <rect x="42" y="55" width="6" height="35" fill="url(#barGradB)"/>
+    
+    <rect x="52" y="30" width="6" height="60" fill="#1a1a2e"/>
+    <rect x="52" y="35" width="6" height="55" fill="url(#barGradB)"/>
+    
+    <rect x="62" y="30" width="6" height="60" fill="#1a1a2e"/>
+    <rect x="62" y="25" width="6" height="65" fill="url(#barGradB)"/>
+    
+    <!-- MOVES text -->
+    <text x="85" y="82" 
+          font-family="Impact, Haettenschweiler, Arial Black, sans-serif" 
+          font-size="68" 
+          font-weight="900"
+          letter-spacing="-1"
+          fill="url(#goldB)"
+          filter="url(#shadowB)">MOVES</text>
+    
+    <!-- No underline - cleaner -->
+    
+    <!-- Tagline -->
+    <text x="210" y="108" font-family="Helvetica Neue, Arial, sans-serif" font-size="8" letter-spacing="3" text-anchor="middle" fill="#555">RUN UR LIFE LIKE A BOSS</text>
+</svg>
